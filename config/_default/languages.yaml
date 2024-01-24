@@ -23,7 +23,7 @@ zh:
 
 
 ko:
-   languageCode: ko
+   languageCode: ko-Hans
   contentDir: content/ko
   title: 오소연
   params:
