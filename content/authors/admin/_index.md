@@ -31,7 +31,8 @@ bio: My research interests include distributed robotics, mobile computing and pr
 interests:
   - Language Documentation
   - Phonetics & Phonology
-  - Bilingualsm
+  - Speech Production & Perception
+  - Bilingualism
 
 # Education to show in About widget
 education:
@@ -42,10 +43,13 @@ education:
     - course: MPhil in Lingusitics, Philology and Phonetics
       institution: University of Oxford
       year: 2021-2023
-    - course: BA in Linguistics
+    - course: BA (Hons) in Linguistics
       institution: University of Manchester
       year: 2019-2021
-
+    - course: BA in English
+      institution: East China University of Science and Technology
+      year: 2017-2019
+    
 
 # Social/Academic Networking
 # For available icons, see: https://docs.hugoblox.com/getting-started/page-builder/#icons
@@ -76,5 +80,5 @@ social:
 highlight_name: true
 ---
 
-Hi! I am a DPhil student in Linguistics at University of Oxford.
+Hi! I am a DPhil student in Linguistics at University of Oxford. I am working on my DPhil project about 'A phonetic study of Wuxi Wu Chinese'.
 {style="text-align: justify;"}
