@@ -38,53 +38,14 @@ education:
   courses:
     - course: DPhil in Lingusitics, Philology and Phonetics
       institution: University of Oxford
-      year: 2023 - Now
+      year: 2023-Now
     - course: MPhil in Lingusitics, Philology and Phonetics
       institution: University of Oxford
-      year: 2021 - 2023
+      year: 2021-2023
     - course: BA in Linguistics
       institution: University of Manchester
-      year: 2019 - 2021
+      year: 2019-2021
 
-# Skills
-# For available icons, see: https://docs.hugoblox.com/getting-started/page-builder/#icons
-skills:
-  - name: Technical
-    items:
-      - name: Python
-        description: ''
-        percent: 80
-        icon: python
-        icon_pack: fab
-      - name: Data Science
-        description: ''
-        percent: 100
-        icon: chart-line
-        icon_pack: fas
-      - name: SQL
-        description: ''
-        percent: 40
-        icon: database
-        icon_pack: fas
-  - name: Hobbies
-    color: '#eeac02'
-    color_border: '#f0bf23'
-    items:
-      - name: Hiking
-        description: ''
-        percent: 60
-        icon: person-hiking
-        icon_pack: fas
-      - name: Cats
-        description: ''
-        percent: 100
-        icon: cat
-        icon_pack: fas
-      - name: Photography
-        description: ''
-        percent: 80
-        icon: camera-retro
-        icon_pack: fas
 
 # Social/Academic Networking
 # For available icons, see: https://docs.hugoblox.com/getting-started/page-builder/#icons
@@ -93,13 +54,11 @@ skills:
 social:
   - icon: envelope
     icon_pack: fas
-    link: '/#contact'
+    link: '#contact'  # For a direct email link, use "mailto: wuxiaoye318@outlook.com".
   - icon: instagram
     icon_pack: fab
     link: https://www.instagram.com/wxy__1213?igsh=MTA5d3UxeG8yNTY5Ng%3D%3D&utm_source=qr
     label: Follow me on Instagram
-    display:
-      header: true
   - icon: github
     icon_pack: fab
     link: https://github.com/xiaoyewu1213
@@ -109,9 +68,9 @@ social:
   # Link to a PDF of your resume/CV.
   # To use: copy your resume to `static/uploads/resume.pdf`, enable `ai` icons in `params.yaml`,
   # and uncomment the lines below.
-  - icon: cv
-    icon_pack: ai
-    link: uploads/resume.pdf
+  #- icon: cv
+  #  icon_pack: ai
+  #  link: uploads/resume.pdf
 
 # Highlight the author in author lists? (true/false)
 highlight_name: true
