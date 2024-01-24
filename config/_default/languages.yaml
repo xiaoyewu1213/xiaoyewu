@@ -12,11 +12,24 @@ en:
 zh:
   languageCode: zh-Hans
   contentDir: content/zh
-  title: Chinese website title...
+  title: 吴筱叶
   params:
-    description: Site description in Chinese...
+    description: 吴筱叶
   menu:
     main:
       - name: 传
+        url: '#about'
+        weight: 1
+
+
+ko:
+   languageCode: ko
+  contentDir: content/ko
+  title: 오소연
+  params:
+    description: 오소연
+  menu:
+    main:
+      - name: 개인
         url: '#about'
         weight: 1
