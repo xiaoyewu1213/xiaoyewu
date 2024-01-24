@@ -28,7 +28,7 @@ organizations:
 bio: My research interests include experimental phonetics, language documentation and speech perception.
 
 # Interests to show in About widget
-interests:
+research interests:
   - Language Documentation
   - Phonetics & Phonology
   - Speech Production & Perception
