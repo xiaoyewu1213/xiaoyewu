@@ -185,7 +185,7 @@ sections:
       flip_alt_rows: false
   - block: markdown
     content:
-      title: Gallery
+      title: My Photography Gallery
       subtitle: ''
       text: |-
         {{< gallery album="demo" >}}
