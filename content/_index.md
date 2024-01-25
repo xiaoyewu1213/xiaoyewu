@@ -62,27 +62,27 @@ sections:
       #   Leave `date_end` empty if it's your current employer.
       #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
       items:
-        - title: CEO
-          company: GenCoin
-          company_url: ''
-          company_logo: org-gc
-          location: California
-          date_start: '2021-01-01'
-          date_end: ''
+        - title: Co-organiser of LingO 2024 Oxford Postgraduate Conference in Linguistics
+          company: ''
+          company_url: 'https://www.ling-phil.ox.ac.uk/lingo/'
+          company_logo: LinO_logo
+          location: Oxford
+          date_start: '2023'
+          date_end: '2024'
           description: |2-
               Responsibilities include:
 
-              * Analysing
-              * Modelling
-              * Deploying
-        - title: Professor of Semiconductor Physics
-          company: University X
-          company_url: ''
-          company_logo: org-x
-          location: California
-          date_start: '2016-01-01'
-          date_end: '2020-12-31'
-          description: Taught electronic engineering and researched semiconductor physics.
+              * Updating the official webpage
+              * Setting up Oxford Abstracts platform
+              * Applying for fundings
+        - title: Research Assistant
+          company: Radbound University
+          company_url: 'https://www.sprintproject.io/'
+          company_logo: Sprint_logo
+          location: Oxford
+          date_start: '2023-03'
+          date_end: '2023-05'
+          description: Recruiting participants, setting up equipments and assisting recording procedures.
     design:
       columns: '2'
   #- block: accomplishments
@@ -185,9 +185,10 @@ sections:
       flip_alt_rows: false
   - block: markdown
     content:
-      title: My Photography Gallery
+      title: My Photography Portfolio
       subtitle: ''
       text: |-
+            I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film. I also like Polaroids for portraits!
         {{< gallery album="demo" >}}
     design:
       columns: '1'
@@ -205,10 +206,10 @@ sections:
   - block: collection
     content:
       title: Publications
-      text: |-
-        {{% callout note %}}
-        Quickly discover relevant content by [filtering publications](./publication/).
-        {{% /callout %}}
+      #text: |-
+      #   {{% callout note %}}
+      #  Quickly discover relevant content by [filtering publications](./publication/).
+      #  {{% /callout %}}
       filters:
         folders:
           - publication
@@ -240,7 +241,7 @@ sections:
              Any ideas or comments are welcome!! Let me know :)
   
       # Contact (add or remove contact options as necessary)
-      email: wuxiaoye318@outlook.com
+      email: xiaoye.wu@ling-phil.ox.ac.uk
       # phone: 888 888 88 88
       # appointment_url: 'https://calendly.com'
       address:
