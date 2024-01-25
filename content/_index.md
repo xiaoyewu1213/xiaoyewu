@@ -65,7 +65,7 @@ sections:
         - title: Co-organiser of LingO 2024 Oxford Postgraduate Conference in Linguistics
           company: ''
           company_url: 'https://www.ling-phil.ox.ac.uk/lingo/'
-          company_logo: LinO_logo
+          company_logo: LingO_logo
           location: Oxford
           date_start: '2023'
           date_end: '2024'
