@@ -65,7 +65,7 @@ sections:
         - title: Co-organiser of LingO 2024 Oxford Postgraduate Conference in Linguistics
           company: ''
           company_url: 'https://www.ling-phil.ox.ac.uk/lingo/'
-          company_logo: LinO_logo
+          company_logo: LinO_logo.jpg
           location: Oxford
           date_start: '2023'
           date_end: '2024'
@@ -78,7 +78,7 @@ sections:
         - title: Research Assistant
           company: Radbound University
           company_url: 'https://www.sprintproject.io/'
-          company_logo: Sprint_logo
+          company_logo: Sprint_logo.webp
           location: Oxford
           date_start: '2023-03'
           date_end: '2023-05'
