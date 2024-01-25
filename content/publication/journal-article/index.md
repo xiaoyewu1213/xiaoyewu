@@ -1,11 +1,14 @@
 ---
-title: "An example journal article"
+title: "Exploring comparison construc- tions in Ndebele and Mandarin: The storyboard 'The Twin Dilemma'"
 authors:
 - admin
-- Robert Ford
+
 author_notes:
 - "Equal contribution"
 - "Equal contribution"
+- "Equal contribution"
+- "Equal contribution"
+
 date: "2015-09-01T00:00:00Z"
 doi: ""
 
