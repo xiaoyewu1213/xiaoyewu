@@ -6,11 +6,10 @@
 # Appearance
 
 appearance:
-  theme_day: minimal
-  theme_night: minimal
+  mode: system
+  color: sky
   font: minimal
   font_size: L
-  color: sky
 
 # SEO
 
