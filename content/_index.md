@@ -188,7 +188,7 @@ sections:
       title: My Photography Portfolio
       subtitle: ''
       text: |-
-            I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film. I also like Polaroids for portraits!
+             I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film. I also like Polaroids for portraits!
         {{< gallery album="demo" >}}
     design:
       columns: '1'
