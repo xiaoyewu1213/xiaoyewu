@@ -209,7 +209,7 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
-       background:
+      background:
         gradient_end: '#f5f1e1'
         gradient_start: '#faf1c8'
         text_color_light: false
