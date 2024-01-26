@@ -45,7 +45,7 @@ sections:
     design:
       background:
         gradient_end: '#b7dbf7'
-        gradient_start: '#e1ecf5'
+        gradient_start: '#f0f7fc'
         text_color_light: false
   #- block: skills
   #  content:
@@ -96,7 +96,7 @@ sections:
     design:
       columns: '2'
       background:
-        gradient_end: '#f5f1e1'
+        gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
         text_color_light: false
   #- block: accomplishments
@@ -199,7 +199,7 @@ sections:
       flip_alt_rows: false
       background:
         gradient_end: '#b7dbf7'
-        gradient_start: '#e1ecf5'
+        gradient_start: '#f0f7fc'
         text_color_light: false
   - block: markdown
     content:
@@ -210,7 +210,7 @@ sections:
     design:
       columns: '1'
       background:
-        gradient_end: '#f5f1e1'
+        gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
         text_color_light: false
   #- block: collection
@@ -240,7 +240,7 @@ sections:
       view: citation
       background:
         gradient_end: '#b7dbf7'
-        gradient_start: '#e1ecf5'
+        gradient_start: '#f0f7fc'
         text_color_light: false
   #- block: collection
   #  id: talks
@@ -310,7 +310,7 @@ sections:
     design:
       columns: '2'
       background:
-        gradient_end: '#f5f1e1'
+        gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
         text_color_light: false
 ---
