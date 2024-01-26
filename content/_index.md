@@ -239,8 +239,8 @@ sections:
       columns: '2'
       view: citation
       background:
-        gradient_end: '#f5f1e1'
-        gradient_start: '#faf1c8'
+        gradient_end: '#b7dbf7'
+        gradient_start: '#e1ecf5'
         text_color_light: false
   #- block: collection
   #  id: talks
