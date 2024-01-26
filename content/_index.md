@@ -235,7 +235,8 @@ sections:
   #  design:
   #    columns: '2'
   #    view: card
-    - block: markdown
+
+  - block: markdown
     content:
       title: My Photography Portfolio
       subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :)'
