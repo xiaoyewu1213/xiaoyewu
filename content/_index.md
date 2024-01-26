@@ -42,6 +42,11 @@ sections:
       title: 
       # Choose a user profile to display (a folder name within `content/authors/`)
       username: admin
+    design:
+      background:
+        gradient_end: '#1976d2'
+        gradient_start: '#004ba0'
+        text_color_light: true
   #- block: skills
   #  content:
   #    title: Skills
@@ -75,7 +80,7 @@ sections:
               * Updating official webpage
               * Setting up Oxford Abstracts platform
               * Applying for fundings
-        - title: Research Assistant of SPRINT Project
+        - title: Research Assistant of the SPRINT Project
           company: Radbound University
           company_url: 'https://www.sprintproject.io/'
           company_logo: Sprint_logo
@@ -191,7 +196,7 @@ sections:
   - block: markdown
     content:
       title: My Photography Portfolio
-      subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film for landscape. I also like Polaroids for portraits!'
+      subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :)'
       text: |-
         {{< gallery album="demo" >}}
     design:
