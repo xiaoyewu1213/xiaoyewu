@@ -195,7 +195,6 @@ sections:
       text: |-
       I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film for landscape. I also like Polaroids for portraits!
         {{< gallery album="demo" >}}
-        
     design:
       columns: '1'
   #- block: collection
