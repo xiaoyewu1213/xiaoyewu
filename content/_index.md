@@ -47,6 +47,7 @@ sections:
         gradient_end: '#b7dbf7'
         gradient_start: '#f0f7fc'
         text_color_light: false
+
   #- block: skills
   #  content:
   #    title: Skills
@@ -99,6 +100,26 @@ sections:
         gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
         text_color_light: false
+
+  - block: collection
+    content:
+      title: Publications
+      #text: |-
+      #   {{% callout note %}}
+      #  Quickly discover relevant content by [filtering publications](./publication/).
+      #  {{% /callout %}}
+      filters:
+        folders:
+          - publication
+        exclude_featured: true
+    design:
+      columns: '2'
+      view: citation
+      background:
+        gradient_end: '#b7dbf7'
+        gradient_start: '#f0f7fc'
+        text_color_light: false
+        
   #- block: accomplishments
   #  content:
       # Note: `&shy;` is used to add a 'soft' hyphen in a long heading.
@@ -199,21 +220,10 @@ sections:
       # For Showcase view, flip alternate rows?
       flip_alt_rows: false
       background:
-        gradient_end: '#b7dbf7'
-        gradient_start: '#f0f7fc'
-        text_color_light: false
-  - block: markdown
-    content:
-      title: My Photography Portfolio
-      subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :)'
-      text: |-
-        {{< gallery album="demo" >}}
-    design:
-      columns: '1'
-      background:
         gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
         text_color_light: false
+    
   #- block: collection
   #  id: featured
   #  content:
@@ -225,24 +235,19 @@ sections:
   #  design:
   #    columns: '2'
   #    view: card
-  - block: collection
+    - block: markdown
     content:
-      title: Publications
-      #text: |-
-      #   {{% callout note %}}
-      #  Quickly discover relevant content by [filtering publications](./publication/).
-      #  {{% /callout %}}
-      filters:
-        folders:
-          - publication
-        exclude_featured: true
+      title: My Photography Portfolio
+      subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :)'
+      text: |-
+        {{< gallery album="demo" >}}
     design:
-      columns: '2'
-      view: citation
+      columns: '1'
       background:
         gradient_end: '#b7dbf7'
         gradient_start: '#f0f7fc'
         text_color_light: false
+
   #- block: collection
   #  id: talks
   #  content:
