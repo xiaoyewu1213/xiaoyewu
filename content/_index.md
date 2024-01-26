@@ -44,9 +44,9 @@ sections:
       username: admin
     design:
       background:
-        gradient_end: '#c8e1fa'
-        gradient_start: '#d8e4f0'
-        text_color_light: true
+        gradient_end: '#b7dbf7'
+        gradient_start: '#e1ecf5'
+        text_color_light: false
   #- block: skills
   #  content:
   #    title: Skills
