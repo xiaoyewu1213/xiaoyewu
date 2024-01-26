@@ -186,7 +186,7 @@ sections:
         - name: All
           tag: '*'
         - name: Wuxi Wu Chinese
-          {style="color: white"}
+          text_color: white
           tag: Wuxi
         - name: Translation
           tag: Translation
