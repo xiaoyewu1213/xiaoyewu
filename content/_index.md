@@ -222,7 +222,7 @@ sections:
       background:
         gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
-        text_color_light: false
+        text_color_light: true
     
   #- block: collection
   #  id: featured
