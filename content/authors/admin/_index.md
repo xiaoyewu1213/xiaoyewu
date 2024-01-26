@@ -80,5 +80,5 @@ social:
 highlight_name: true
 ---
 
-Hi! I am a DPhil student in Linguistics at University of Oxford. I am working on my DPhil project about 'A phonetic study of Wuxi Wu Chinese'.
+Hi! I am a DPhil student in Linguistics at University of Oxford. I am currently working on my DPhil project 'An acoustic phonetic study of Wuxi Wu Chinese'. 
 {style="text-align: justify;"}
