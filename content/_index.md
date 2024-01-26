@@ -67,8 +67,8 @@ sections:
           company_url: 'https://www.ling-phil.ox.ac.uk/lingo/'
           company_logo: LingO_logo
           location: Oxford
-          date_start: '2023-10'
-          date_end: '2024-06'
+          date_start: '2023-10-01'
+          date_end: '2024-06-30'
           description: |2-
               Responsibilities include:
 
@@ -80,8 +80,8 @@ sections:
           company_url: 'https://www.sprintproject.io/'
           company_logo: Sprint_logo
           location: Oxford
-          date_start: '2023-03'
-          date_end: '2023-05'
+          date_start: '2023-03-01'
+          date_end: '2023-05-30'
           description: Recruiting participants, setting up equipments and assisting recording procedures.
     design:
       columns: '2'
