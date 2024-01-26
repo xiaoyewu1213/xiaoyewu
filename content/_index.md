@@ -238,7 +238,7 @@ sections:
     design:
       columns: '2'
       view: citation
-       background:
+      background:
         gradient_end: '#f5f1e1'
         gradient_start: '#faf1c8'
         text_color_light: false
@@ -309,7 +309,7 @@ sections:
           captcha: false
     design:
       columns: '2'
-       background:
+      background:
         gradient_end: '#f5f1e1'
         gradient_start: '#faf1c8'
         text_color_light: false
