@@ -7,7 +7,7 @@
 
 appearance:
   theme_day: minimal
-   color: sky
+  color: sky
   theme_night: minimal
   font: minimal
   font_size: L
