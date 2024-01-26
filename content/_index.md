@@ -95,6 +95,10 @@ sections:
               * Assisting recording procedures
     design:
       columns: '2'
+      background:
+        gradient_end: '#f5f1e1'
+        gradient_start: '#faf1c8'
+        text_color_light: false
   #- block: accomplishments
   #  content:
       # Note: `&shy;` is used to add a 'soft' hyphen in a long heading.
@@ -193,6 +197,10 @@ sections:
       view: showcase
       # For Showcase view, flip alternate rows?
       flip_alt_rows: false
+      background:
+        gradient_end: '#b7dbf7'
+        gradient_start: '#e1ecf5'
+        text_color_light: false
   - block: markdown
     content:
       title: My Photography Portfolio
@@ -201,6 +209,10 @@ sections:
         {{< gallery album="demo" >}}
     design:
       columns: '1'
+       background:
+        gradient_end: '#f5f1e1'
+        gradient_start: '#faf1c8'
+        text_color_light: false
   #- block: collection
   #  id: featured
   #  content:
@@ -226,6 +238,10 @@ sections:
     design:
       columns: '2'
       view: citation
+       background:
+        gradient_end: '#f5f1e1'
+        gradient_start: '#faf1c8'
+        text_color_light: false
   #- block: collection
   #  id: talks
   #  content:
@@ -293,4 +309,8 @@ sections:
           captcha: false
     design:
       columns: '2'
+       background:
+        gradient_end: '#f5f1e1'
+        gradient_start: '#faf1c8'
+        text_color_light: false
 ---
