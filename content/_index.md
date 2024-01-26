@@ -75,7 +75,7 @@ sections:
               * Updating the official webpage
               * Setting up Oxford Abstracts platform
               * Applying for fundings
-        - title: Research Assistant
+        - title: Research Assistant of SPRINT Project
           company: Radbound University
           company_url: 'https://www.sprintproject.io/'
           company_logo: Sprint_logo
