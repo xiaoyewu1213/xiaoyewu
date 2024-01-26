@@ -62,8 +62,8 @@ sections:
       #   Leave `date_end` empty if it's your current employer.
       #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
       items:
-        - title: Co-organiser of LingO 2024 Oxford Postgraduate Conference in Linguistics
-          company: ''
+        - title: Co-organiser of LingO 2024 
+          company: Oxford Postgraduate Conference in Linguistics
           company_url: 'https://www.ling-phil.ox.ac.uk/lingo/'
           company_logo: LingO_logo
           location: Oxford
@@ -72,7 +72,7 @@ sections:
           description: |2-
               Responsibilities include:
 
-              * Updating the official webpage
+              * Updating official webpage
               * Setting up Oxford Abstracts platform
               * Applying for fundings
         - title: Research Assistant of SPRINT Project
@@ -82,7 +82,12 @@ sections:
           location: Oxford
           date_start: '2023-03-01'
           date_end: '2023-05-30'
-          description: Recruiting participants, setting up equipments and assisting recording procedures.
+          description: |2-
+              Responsibilities include:
+
+              * Recruiting participants
+              * Setting up equipments 
+              * Assisting recording procedures
     design:
       columns: '2'
   #- block: accomplishments
