@@ -57,6 +57,7 @@ sections:
   #  design:
   #    columns: '1'
   - block: experience
+    id: experience
     content:
       title: Experience
       # Date format for experience
@@ -206,6 +207,7 @@ sections:
   #    view: compact
   #    columns: '2'
   - block: collection
+    id: publications
     content:
       title: Publications
       #text: |-
@@ -224,6 +226,25 @@ sections:
         gradient_start: '#faf1c8'
         text_color_light: false
     
+  - block: collection
+    id: pre
+    content:
+      title: Presentations
+      #text: |-
+      #   {{% callout note %}}
+      #  Quickly discover relevant content by [filtering publications](./publication/).
+      #  {{% /callout %}}
+      filters:
+        folders:
+          - slides
+        exclude_featured: true
+    design:
+      view: citation
+      background:
+        gradient_end: '#fcf9ed'
+        gradient_start: '#faf1c8'
+        text_color_light: false
+
   #- block: collection
   #  id: featured
   #  content:
@@ -237,6 +258,7 @@ sections:
   #    view: card
 
   - block: markdown
+    id: portfolio
     content:
       title: My Photography Portfolio
       subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :)'
