@@ -2,9 +2,9 @@
 title: "Exploring comparison constructions in Ndebele and Mandarin: The storyboard 'The Twin Dilemma'"
 authors:
 
-- 'Empson, A.'
-- 'Ma, J.'
-- 'Weingartz, S.'
+- "Empson, A."
+- "Ma, J."
+- "Weingartz, S."
 - admin
 
 author_notes:

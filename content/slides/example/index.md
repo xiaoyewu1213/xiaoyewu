@@ -1,16 +1,16 @@
 ---
 title: Slides
 summary: An introduction to using Hugo Blox Builder's Slides feature.
-authors: []
+authors: admin
 tags: []
 categories: []
-date: '2019-02-05T00:00:00Z'
+date: '2024-01-11T00:00:00Z'
 slides:
   # Choose a theme from https://github.com/hakimel/reveal.js#theming
-  theme: black
+  theme: white
   # Choose a code highlighting style (if highlighting enabled in `params.toml`)
   #   Light style: github. Dark style: dracula (default).
-  highlight_style: dracula
+  highlight_style: github
 ---
 
 # Create slides in Markdown with Hugo Blox Builder
