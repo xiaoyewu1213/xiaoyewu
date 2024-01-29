@@ -242,8 +242,8 @@ sections:
       columns: '2'
       view: compact
       background:
-        gradient_end: '#fcf9ed'
-        gradient_start: '#faf1c8'
+        gradient_end: '#b7dbf7'
+        gradient_start: '#f0f7fc'
         text_color_light: false
 
   #- block: collection
@@ -268,10 +268,9 @@ sections:
     design:
       columns: '1'
       background:
-        gradient_end: '#b7dbf7'
-        gradient_start: '#f0f7fc'
+        gradient_end: '#fcf9ed'
+        gradient_start: '#faf1c8'
         text_color_light: false
-
   #- block: collection
   #  id: talks
   #  content:
@@ -340,7 +339,7 @@ sections:
     design:
       columns: '2'
       background:
-        gradient_end: '#fcf9ed'
-        gradient_start: '#faf1c8'
+        gradient_end: '#b7dbf7'
+        gradient_start: '#f0f7fc'
         text_color_light: false
 ---
