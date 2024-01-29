@@ -17,7 +17,7 @@ zh:
     description: 吴筱叶
   menu:
     main:
-      - name: 传
+      - name: 
         url: '#about'
         weight: 1
 
