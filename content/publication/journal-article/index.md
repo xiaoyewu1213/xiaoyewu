@@ -43,7 +43,7 @@ featured: false
 # links:
 # - name: ""
 #   url: ""
-url_pdf:  https://ojs.library.ubc.ca/index.php/storyboards/article/view/193322/191404
+url_pdf:  /workspaces/wxy/content/publication/journal-article/storyboard.pdf
 url_code: ''
 url_dataset: ''
 url_poster: ''
