@@ -35,6 +35,8 @@ summary: This paper introduces the storyboard “The Twin Dilemma,” which was 
 
 tags:
 - Comparative constructions
+- Ndebele
+- Mandarin Chinese
 featured: false
 
 # links:
@@ -71,3 +73,22 @@ projects: []
 slides: ""
 ---
 
+![screen reader text](storyboard1.png "caption")
+
+
+1. Cecilia and Verna are twins. They live with their parents in a big house.
+2. One day, Mom was talking about the twins…
+3. But Dad couldn’t remember which twin was Cecilia and which twin was Verna!
+4. “Who is taller?” asked Dad.
+5. “Cecilia is taller than Verna,” Mom said.
+6. “But how much taller is Cecilia than Verna?” Dad asked.
+7. “Cecilia is two cm than Verna,” Mom replied.
+8. “But I’m the tallest!” Dad laughed.
+9. “Hm, Cecilia is a better musician than Verna,” Mom said.
+10. “But Verna is as pretty as Cecilia.”
+11. “Hm, and Cecilia eats more than Verna,” Mom said.
+12. “But I eat the most!” Dad replied.
+13. Dad still didn’t know which twin was Cecilia and which twin was Verna.
+14. Cecilia and Verna had a great idea!
+15. “We could wear different colour dresses,” they said.
+16. Now Dad knows which twin is Cecilia and which twin is Verna!
