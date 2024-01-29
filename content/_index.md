@@ -239,6 +239,7 @@ sections:
           - slides
         exclude_featured: true
     design:
+      columns: '2'
       view: citation
       background:
         gradient_end: '#fcf9ed'
