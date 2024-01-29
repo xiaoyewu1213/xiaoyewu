@@ -35,6 +35,7 @@ summary: This paper introduces the storyboard “The Twin Dilemma,” which was 
 
 tags:
 - Comparative constructions
+- Degree semantics
 - Ndebele
 - Mandarin Chinese
 featured: false
