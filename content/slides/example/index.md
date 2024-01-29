@@ -1,7 +1,7 @@
 ---
 title: Slides
 summary: An introduction to using Hugo Blox Builder's Slides feature.
-authors: admin
+authors: []
 tags: []
 categories: []
 date: '2024-01-11T00:00:00Z'
