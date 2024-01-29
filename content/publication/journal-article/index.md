@@ -72,9 +72,11 @@ projects: []
 #   Otherwise, set `slides: ""`.
 slides: ""
 ---
+Here are our storyboards for the article “Exploring comparison constructions in Ndebele and
+Mandarin: The storyboard The Twin Dilemma”!
 
-![screen reader text](storyboard1.png "caption")
-
+![screen reader text](storyboard1.png)
+![screen reader text](storyboard2.png "African Version")
 
 1. Cecilia and Verna are twins. They live with their parents in a big house.
 2. One day, Mom was talking about the twins…
