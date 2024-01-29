@@ -28,10 +28,7 @@ publication_types: ["article-journal"]
 publication: "*Semantic Fieldwork Methods, 3*(1)"
 publication_short: ""
 
-abstract: This paper introduces the storyboard “The Twin Dilemma,” which was created to investigate how languages encode comparisons, and in particular, comparative constructions. The storyboard aims to elicit different kinds of comparison constructions to inform linguistic analysis. We
-present two narrations of the storyboard, first from Ndebele (Niger­Congo, Bantu; Zimbabwe), and
-then from Mandarin Chinese, along with some initial hypotheses as to the syntactic and semantic
-analysis of the comparative in these languages.
+abstract: This paper introduces the storyboard “The Twin Dilemma,” which was created to investigate how languages encode comparisons, and in particular, comparative constructions. The storyboard aims to elicit different kinds of comparison constructions to inform linguistic analysis. We present two narrations of the storyboard, first from Ndebele (Niger­Congo, Bantu; Zimbabwe), and then from Mandarin Chinese, along with some initial hypotheses as to the syntactic and semantic analysis of the comparative in these languages.
 
 # Summary. An optional shortened abstract.
 summary: This paper introduces the storyboard “The Twin Dilemma,” which was created to investigate how languages encode comparisons, and in particular, comparative constructions.
