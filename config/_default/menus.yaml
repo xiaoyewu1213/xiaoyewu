@@ -17,7 +17,7 @@ main:
     url: '#publication'
     weight: 40
   - name: Presentations
-    url: '#slides'
+    url: '#pre'
     weight: 50
   - name: Contact
     url: '#contact'

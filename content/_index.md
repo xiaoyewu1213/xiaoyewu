@@ -207,7 +207,7 @@ sections:
   #    view: compact
   #    columns: '2'
   - block: collection
-    id: publications
+    id: publication
     content:
       title: Publications
       #text: |-
