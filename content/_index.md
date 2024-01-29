@@ -240,7 +240,7 @@ sections:
         exclude_featured: true
     design:
       columns: '2'
-      view: citation
+      view: compact
       background:
         gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
