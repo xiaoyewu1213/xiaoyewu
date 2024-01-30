@@ -1,5 +1,6 @@
 ---
-title: 'The Most Beautiful Moment in Life: The Notes 1' Chinese Version
+
+title: 'The Most Beautiful Moment in Life: The Notes 1 (Chinese Version)'
 summary: "An English-to-Chinese translation of the fiction novel 'The Most Beautiful Moment in Life: The Notes 1'"
 tags:
   - Translation
