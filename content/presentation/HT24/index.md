@@ -17,7 +17,7 @@ external_link: ''
 #    name: Follow
 #    url: https://twitter.com/georgecushen
 url_code: ''
-url_pdf: uploads/thesis workshop.pdf
+url_pdf: uploads/thesis workshop HT24.pdf
 url_slides: ''
 url_video: ''
 
