@@ -1,7 +1,8 @@
 ---
 title: A Phonetic Study of Voicing Contrast of Obstruents in Wuxi Wu Chinese
 summary: Presented on Oxford LPP Graduate Thesis Workshop on Jan 11, 2024.
-authors: - admin
+authors: 
+  - admin
 tags:
   - Wuxi Wu Chinese
   - Acoustic Phonetics
