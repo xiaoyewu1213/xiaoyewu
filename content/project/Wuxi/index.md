@@ -1,6 +1,6 @@
 ---
 title: Documentation of Wuxi Wu Chinese
-summary: An acoustic phonetic study of the less studies dialect in East China
+summary: An acoustic phonetic study of an understudied dialect in East China
 tags:
   - Wuxi Wu
 date: '2024-01-27T00:00:00Z'
