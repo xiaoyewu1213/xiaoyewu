@@ -240,7 +240,7 @@ sections:
         exclude_featured: true
     design:
       columns: '2'
-      view: compact
+      view: showcase
       background:
         gradient_end: '#b7dbf7'
         gradient_start: '#f0f7fc'
