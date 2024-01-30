@@ -230,10 +230,6 @@ sections:
     id: pre
     content:
       title: Presentations
-      #text: |-
-      #   {{% callout note %}}
-      #  Quickly discover relevant content by [filtering publications](./publication/).
-      #  {{% /callout %}}
       filters:
         folders:
           - slides
@@ -241,6 +237,7 @@ sections:
     design:
       columns: '1'
       view: showcase
+      flip_alt_rows: false
       background:
         gradient_end: '#b7dbf7'
         gradient_start: '#f0f7fc'
