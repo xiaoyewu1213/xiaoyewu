@@ -232,7 +232,7 @@ sections:
       title: Presentations
       filters:
         folders:
-          - slides
+          - presentation
         exclude_featured: true
     design:
       columns: '1'
