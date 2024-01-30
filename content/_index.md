@@ -236,7 +236,7 @@ sections:
         exclude_featured: true
     design:
       columns: '1'
-      view: compact
+      view: showcase
       flip_alt_rows: false
       background:
         gradient_end: '#b7dbf7'
