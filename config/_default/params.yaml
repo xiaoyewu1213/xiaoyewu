@@ -10,9 +10,8 @@ appearance:
   theme_night: minimal
   font: minimal
   font_size: L
+  theme_default: light
   
-day_night: false
-mode: light
 
 # SEO
 
