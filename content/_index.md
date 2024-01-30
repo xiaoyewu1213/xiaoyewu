@@ -240,7 +240,7 @@ sections:
         exclude_featured: true
     design:
       columns: '1'
-      view: card
+      view: compact
       background:
         gradient_end: '#b7dbf7'
         gradient_start: '#f0f7fc'
