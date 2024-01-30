@@ -1,6 +1,6 @@
 ---
 title: A Phonetic Study of Voicing Contrast of Obstruents in Wuxi Wu Chinese
-summary: Presented on LPP Graduate Thesis Workshop
+summary: Presented on Oxford LPP Graduate Thesis Workshop
 authors: 
  - admin
 tags: 
