@@ -239,7 +239,7 @@ sections:
           - slides
         exclude_featured: true
     design:
-      columns: '2'
+      columns: '1'
       view: showcase
       background:
         gradient_end: '#b7dbf7'
