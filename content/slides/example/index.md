@@ -7,6 +7,6 @@ tags:
  - Wuxi Wu
 categories: []
 date: '2024-01-11T00:00:00Z'
-image: uploads/slides cover.png
+image: slides cover.png
 url_pdf: uploads/thesis workshop.pdf
 ---
