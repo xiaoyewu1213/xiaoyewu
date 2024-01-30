@@ -81,7 +81,7 @@ sections:
 
               * Updating official webpage
               * Setting up Oxford Abstracts platform
-              * Applying for fundings
+              * Applying for fundings (from Trinity College)
         - title: Research Assistant of the SPRINT Project
           company: Radbound University
           company_url: 'https://www.sprintproject.io/'
@@ -92,9 +92,9 @@ sections:
           description: |2-
               Responsibilities include:
 
-              * Recruiting participants
-              * Setting up equipments 
-              * Assisting recording procedures
+              * Advertising and recruiting Southern British English speakers;
+              * Coordinating with colleagues and setting up recording equipments in the booth 
+              * Assisting and monitoring recording procedures
     design:
       columns: '2'
       background:
