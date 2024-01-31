@@ -329,10 +329,10 @@ sections:
       form:
         provider: netlify
         formspree:
-          id:
+          id: xiaoye.wu@ling-phil.ox.ac.uk
         netlify:
           # Enable CAPTCHA challenge to reduce spam?
-          captcha: false
+          captcha: true
     design:
       columns: '2'
       background:
