@@ -328,11 +328,11 @@ sections:
       # Email form provider
       form:
         provider: netlify
-        formspree:
-          id: “mvoezegv”
+        #formspree:
+        #  id: “mvoezegv”
         netlify:
           # Enable CAPTCHA challenge to reduce spam?
-          captcha: false
+          captcha: true
     design:
       columns: '2'
       background:
