@@ -327,12 +327,12 @@ sections:
       autolink: true
       # Email form provider
       form:
-        provider: fromspree
+        provider: netlify
         formspree:
           id: mvoezegv
-        #netlify:
+        netlify:
           # Enable CAPTCHA challenge to reduce spam?
-          #captcha: false
+          captcha: false
     design:
       columns: '2'
       background:
