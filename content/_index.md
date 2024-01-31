@@ -326,13 +326,13 @@ sections:
       # Automatically link email and phone or display as text?
       autolink: true
       # Email form provider
-      form:
-        provider: netlify
+      #form:
+        #provider: netlify
         #formspree:
         #  id: “mvoezegv”
-        netlify:
+        #netlify:
           # Enable CAPTCHA challenge to reduce spam?
-          captcha: true
+          #captcha: true
     design:
       columns: '2'
       background:
