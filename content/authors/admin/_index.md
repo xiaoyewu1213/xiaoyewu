@@ -58,7 +58,7 @@ education:
 social:
   - icon: envelope
     icon_pack: fas
-    link: mailto: xiaoye.wu@ling-phil.ox.ac.uk  # For a direct email link, use "mailto: wuxiaoye318@outlook.com".
+    mailto: xiaoye.wu@ling-phil.ox.ac.uk  # For a direct email link, use "mailto: wuxiaoye318@outlook.com".
   - icon: instagram
     icon_pack: fab
     link: https://www.instagram.com/wxy__1213?igsh=MTA5d3UxeG8yNTY5Ng%3D%3D&utm_source=qr
