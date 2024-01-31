@@ -329,7 +329,7 @@ sections:
       form:
         provider: netlify
         formspree:
-          id:
+          id: 027222a4-43dd-4b3a-b369-18a966306b52
         netlify:
           # Enable CAPTCHA challenge to reduce spam?
           captcha: false
