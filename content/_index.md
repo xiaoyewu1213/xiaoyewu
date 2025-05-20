@@ -69,13 +69,13 @@ sections:
       #   Leave `date_end` empty if it's your current employer.
       #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
       items:
-        - title: Co-organiser of LingO 2024 
+        - title: Organiser of LingO 2025, Co-organiser of LingO 2024 
           company: Oxford Postgraduate Conference in Linguistics
           company_url: 'https://www.ling-phil.ox.ac.uk/lingo/'
           company_logo: LingO_logo
           location: Oxford
           date_start: '2023-10-01'
-          date_end: '2024-06-30'
+          date_end: '2025-06-30'
           description: |2-
               Responsibilities include:
 
