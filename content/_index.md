@@ -244,6 +244,23 @@ sections:
         gradient_start: '#f0f7fc'
         text_color_light: false
 
+  - block: collection
+    id: tutorials
+    content:
+      title: Tutorials
+      filters:
+        folders:
+          - tutorials
+        exclude_featured: true
+    design:
+      columns: '1'
+      view: showcase
+      flip_alt_rows: false
+      background:
+        gradient_end: '#b7dbf7'
+        gradient_start: '#f0f7fc'
+        text_color_light: false
+
   #- block: collection
   #  id: featured
   #  content:

@@ -19,6 +19,9 @@ main:
   - name: Presentations
     url: '#pre'
     weight: 50
+  - name: Tutorials
+    url: '#tutorials'
+    weight: 20
   - name: Contact
     url: '#contact'
     weight: 60 
