@@ -13,11 +13,10 @@ external_link: ''
 #  caption: Photo by rawpixel on Unsplash
 #  focal_point: Smart
 
-#links:
-#  - icon: twitter
-#    icon_pack: fab
-#    name: Follow
-#    url: https://twitter.com/georgecushen
+links:
+  - icon: custom/tla
+    name: Website
+    url: https://archive.mpi.nl/tla/islandora/object/tla%253A1839_d16781b9_efb8_424d_a25f_9a5d186b3656
 url_code: ''
 url_pdf: ''
 url_slides: ''
