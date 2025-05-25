@@ -30,5 +30,7 @@ url_video: ''
 #   Otherwise, set `slides = ""`.
 slides: "" 
 ---
+I am building up an audio archive for Wuxi Wu Chinese on 'The Language Archive', focusing on the phonemic system and the lexical tones. You can have Open Access to it [here](https://archive.mpi.nl/tla/islandora/object/tla%253A1839_d16781b9_efb8_424d_a25f_9a5d186b3656).
+
 
 To be updated!
