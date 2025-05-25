@@ -85,7 +85,7 @@ sections:
               * Managed logistics including venue booking, registration, catering, and technical support
         - title: Research Assistant of the SPRINT Project
           company: Radbound University
-          company_url: 'https://www.sprintproject.io/'
+          company_url: 'https://www.ru.nl/en/research/research-projects/sprint'
           company_logo: Sprint_logo
           location: Oxford
           date_start: '2023-03-01'
