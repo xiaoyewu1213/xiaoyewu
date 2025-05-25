@@ -22,7 +22,7 @@ role: DPhil Student in Linguistics
 # Organizations/Affiliations to show in About widget
 organizations:
   - name: University of Oxford
-    url: https://www.ling-phil.ox.ac.uk/
+    url: https://www.ling-phil.ox.ac.uk/people/xiaoye-wu
 
 # Short bio (displayed in user profile at end of posts)
 bio: My research interests include experimental phonetics, language documentation and speech perception.
@@ -80,5 +80,5 @@ social:
 highlight_name: true
 ---
 
-Hi! I am a DPhil student in Linguistics at University of Oxford. I am currently working on my DPhil project 'An phonetic study of Wuxi Wu Chinese'. 
+Hi! I am a DPhil student in Linguistics at University of Oxford. I am currently working on my DPhil project 'A phonetic study of Wuxi Wu Chinese'. 
 {style="text-align: justify;"}
