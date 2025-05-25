@@ -36,38 +36,26 @@ interests:
 
 # Education to show in About widget
 education:
-  - area: DPhil in Lingusitics, Philology and Phonetics
-    institution: University of Oxford
-    date_start: 2023-10-01
-    # date_end: 
-    #summary: |
-      
-    #button:
-      #text: 'Read Thesis'
-      #url: 'https://example.com'
-  - area: MPhil in Lingusitics, Philology and Phonetics
-    institution: University of Oxford
-    date_start: 2021-10-01
-    date_end: 2023-06-30
-    summary: |
-      Final Award: Merit
-
-      Thesis: Vowel Adaptation of English Loanwords in Mandarin
-      - Carried out coursework research on 'VOT Perception of Word-initial Stops by Mandarin Learners of English' and 'Blocking Effect of Chinese Bare Reflexive: An Optimality-Theoretic Analysis'
-  - area: BA (Hons) in Linguistics
-    institution: University of Manchester
-    date_start: 2019-09-01
-    date_end: 2021-06-30
-    summary: |
-      Final Award: Distinction (79%)
-
+  courses:
+    - course: DPhil in Lingusitics, Philology and Phonetics
+      institution: University of Oxford
+      year: 2023-Now
+    - course: MPhil in Lingusitics, Philology and Phonetics
+      institution: University of Oxford
+      year: 2021-2023
+    - course: BA (Hons) in Linguistics
+      institution: University of Manchester
+      year: 2019-2021
+    - course: BA in English
+      institution: East China University of Science and Technology
+      year: 2017-2019
     
 
 # Social/Academic Networking
 # For available icons, see: https://docs.hugoblox.com/getting-started/page-builder/#icons
 #   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
 #   form "mailto:your-email@example.com" or "/#contact" for contact widget.
-profiles:
+social:
   - icon: envelope
     icon_pack: fas
     link: '#contact'  # For a direct email link, use "mailto: wuxiaoye318@outlook.com".
