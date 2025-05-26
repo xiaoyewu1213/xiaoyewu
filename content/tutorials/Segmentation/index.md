@@ -1,8 +1,9 @@
 ---
 title: Principles of Phonetic Segmentation
-summary: A brief tutorial based on the book 'Principles of Phonetic Segmentation' written by Pavel Machac and Radek Skarnitzl in 2009 
+summary: A brief tutorial based on the book 'Principles of Phonetic Segmentation' written by Pavel Machac and Radek Skarnitzl in 2009  
 
-  _Everything has boundaries, though often unclear._
+ _“Everything has boundaries, though often unclear.”_
+
 authors: 
   - admin
 tags:
