@@ -261,7 +261,7 @@ sections:
         gradient_start: '#faf1c8'
         text_color_light: false
 
-- block: collection
+  - block: collection
     id: translations
     content:
       title: Translations
