@@ -1,10 +1,10 @@
 ---
 
-title: 'The Musician at Work'
+title: 'The Musician at Work (Chinese Translation)'
 summary: "A Korean-to-Chinese translation of the biography 'The Musician at Work' by the songwriter Kim Mok-In"
 tags:
   - Translation
-date: '2019-06-12T00:00:00Z'
+date: '2025-05-26T00:00:00Z'
 
 # Optional external URL for project (replaces project detail page).
 external_link: ''
