@@ -1,7 +1,8 @@
 ---
 
 title: 'The Most Beautiful Moment in Life: The Notes 1 (Chinese Translation)'
-summary: An English-to-Chinese translation of the fiction novel 'The Most Beautiful Moment in Life:The Notes 1  
+summary: >
+ An English-to-Chinese translation of the fiction novel 'The Most Beautiful Moment in Life:The Notes 1  
 
   _“Those days were gone and would never come again.”_
 
