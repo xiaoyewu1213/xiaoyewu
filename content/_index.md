@@ -306,9 +306,10 @@ sections:
 
         I like cooking & baking. My best recipes are orange butter cookie and strawberry tiramisu. 
 
-        <img src="images/hobby.jpg" alt="Baking" width="400"/>
+        {{< gallery album="baking" >}}
         
-        
+         <br>
+         
         I enjoy music a lot! I play the piano. Now I am learing to play the guitar and trying some music production for fun. I do remixes when I am free. My favourite genres are R&B and City Pop. I also love kpop dance and I do dance covers from time to time. Check my channels for [music](https://www.youtube.com/@nine91213) and [dance](https://www.tiktok.com/@user9857168548371?_t=ZN-8x2TCdzOtle&_r=1). 
         
         Always curious, always creating — I’m excited to keep exploring the world!
