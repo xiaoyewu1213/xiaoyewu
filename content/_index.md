@@ -265,7 +265,7 @@ sections:
     id: translations
     content:
       title: Translations
-      text: 'I love languages — I’ve studied Korean, Japanese, Cantonese for interest. I enjoy talking with people through different languages and also work on book translations.'
+      subtitle: 'I love languages — I’ve studied Korean, Japanese, Cantonese, a liitle bit of French, German and Thai for fun. I enjoy talking with people through different languages and also work on book translations.'
       filters:
         folders:
           - translations
@@ -297,10 +297,15 @@ sections:
     content:
       title: My Hobbies
       subtitle: 'Photography Enthusiast|Baker|Music Lover|Kpop Dancer'
-      text: ‘I’m a passionate self-learner who loves picking up new and interesting skills! I love photography. I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :) and also a big fan of Polaroids!'
-        |- 
+      text: ‘I’m a passionate self-learner who loves picking up new and interesting skills! I love photography. I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :) and also a big fan of Polaroids!' 
+
+
         {{< gallery album="demo" >}}
-        'I like cooking & baking. My best recipes are orange butter cookie and snowflake nougat. I enjoy music a lot! I play the piano. Now I am learing to play the guitar and trying some music production for fun. I do remixes when I am free. My favourite genres are R&B and City Pop. I also love kpop dance and I do dance covers from time to time. Check my channels for music and dance. Keep exploring the world!’
+
+
+        I like cooking & baking. My best recipes are orange butter cookie and snowflake nougat. 
+        
+        I enjoy music a lot! I play the piano. Now I am learing to play the guitar and trying some music production for fun. I do remixes when I am free. My favourite genres are R&B and City Pop. I also love kpop dance and I do dance covers from time to time. Check my channels for [music] (https://www.youtube.com/@nine91213) and [dance](https://www.tiktok.com/@user9857168548371?_t=ZN-8x2TCdzOtle&_r=1). Keep exploring the world!’
     design:
       columns: '1'
       background:
