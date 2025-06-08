@@ -265,6 +265,7 @@ sections:
     id: translations
     content:
       title: Translations
+      text: 'I love languages — I’ve studied Korean, Japanese, Cantonese for interest. I enjoy talking with people through different languages and also work on book translations.'
       filters:
         folders:
           - translations
@@ -294,16 +295,19 @@ sections:
   - block: markdown
     id: portfolio
     content:
-      title: My Photography Portfolio
-      subtitle: 'I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :)'
-      text: |-
+      title: My Hobbies
+      subtitle: 'Photography Enthusiast|Baker|Music Lover|Kpop Dancer'
+      text: ‘I’m a passionate self-learner who loves picking up new and interesting skills! I love photography. I am using Olympus Pen EE-2 half frame film camera with FujiColor C200 35mm film :) and also a big fan of Polaroids!'
+        |- 
         {{< gallery album="demo" >}}
+        'I like cooking & baking. My best recipes are orange butter cookie and snowflake nougat. I enjoy music a lot! I play the piano. Now I am learing to play the guitar and trying some music production for fun. I do remixes when I am free. My favourite genres are R&B and City Pop. I also love kpop dance and I do dance covers from time to time. Check my channels for music and dance. Keep exploring the world!’
     design:
       columns: '1'
       background:
         gradient_end: '#fcf9ed'
         gradient_start: '#faf1c8'
         text_color_light: false
+
   #- block: collection
   #  id: talks
   #  content:
