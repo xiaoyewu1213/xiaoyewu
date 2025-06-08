@@ -306,6 +306,8 @@ sections:
 
         I like cooking & baking. My best recipes are orange butter cookie and strawberry tiramisu. 
 
+        <br>
+
         {{< gallery album="baking" >}}
         
          <br>
