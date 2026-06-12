@@ -21,7 +21,6 @@ removePathAccents: true
 
 enableGitInfo: false
 summaryLength: 30
-paginate: 10
 enableEmoji: true
 enableRobotsTXT: true
 footnotereturnlinkcontents: <sup>^</sup>
@@ -35,6 +34,8 @@ disableAliases: true
 outputs:
   home: [HTML, RSS, JSON, WebAppManifest, headers, redirects]
   section: [HTML, RSS]
+pagination:
+  pagerSize: 10
 imaging:
   resampleFilter: lanczos
   quality: 75
