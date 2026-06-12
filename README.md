@@ -1,5 +1,16 @@
 # [Hugo Academic CV Theme](https://github.com/HugoBlox/theme-academic-cv)
 
+## Deployment
+
+This personal website is prepared for Vercel deployment.
+
+- Import `xiaoyewu1213/xiaoyewu` into Vercel.
+- Vercel reads `vercel.json`.
+- Build command: `hugo --gc --minify --baseURL "https://${VERCEL_URL:-xiaoyewu.vercel.app}"`
+- Output directory: `public`
+
+The acoustic data tool is served from `/tools/acoustic-pipeline/`.
+
 [![Screenshot](./preview.png)](https://hugoblox.com/templates/)
 
 The Hugo **Academic Resumé Template** empowers you to easily create your job-winning online resumé, showcase your academic publications, and create online courses or knowledge bases to grow your audience.
