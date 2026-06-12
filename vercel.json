@@ -1,9 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "hugo",
-  "installCommand": "pnpm install --verbose",
+  "installCommand": "echo \"Skipping Node dependency install; Hugo modules are resolved during build.\"",
   "buildCommand": "hugo --gc --minify --baseURL \"https://${VERCEL_URL:-xiaoyewu.vercel.app}\"",
   "outputDirectory": "public",
+  "build": {
+    "env": {
+      "GO_VERSION": "1.21.5",
+      "HUGO_ENABLEGITINFO": "true",
+      "HUGO_ENV": "production",
+      "HUGO_VERSION": "0.150.1"
+    }
+  },
   "env": {
     "GO_VERSION": "1.21.5",
     "HUGO_ENABLEGITINFO": "true",
