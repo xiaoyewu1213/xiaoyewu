@@ -1,0 +1,2592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acoustic Data Pipeline</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172026;
+      --muted: #66717a;
+      --line: #d9e0e6;
+      --soft: #f6f8fa;
+      --panel: #ffffff;
+      --accent: #0f766e;
+      --accent-strong: #115e59;
+      --warn: #a35a00;
+      --danger: #a12a2a;
+      --shadow: 0 12px 30px rgba(23, 32, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #eef3f7;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    main {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    header {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    header p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: clip;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+    }
+
+    .panel-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .panel-title span,
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .panel-body {
+      padding: 20px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field.span-3 {
+      grid-column: span 3;
+    }
+
+    .field.span-4 {
+      grid-column: span 4;
+    }
+
+    .field.span-5 {
+      grid-column: span 5;
+    }
+
+    .field.span-6 {
+      grid-column: span 6;
+    }
+
+    .field.span-8 {
+      grid-column: span 8;
+    }
+
+    .field.span-12 {
+      grid-column: span 12;
+    }
+
+    label,
+    .label {
+      color: #24313a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input[type="file"],
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      min-height: 40px;
+      padding: 9px 10px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid #c8d2da;
+      border-radius: 6px;
+      font: inherit;
+    }
+
+    select[multiple] {
+      min-height: 190px;
+      padding: 6px;
+    }
+
+    select.export-columns {
+      min-height: 140px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 18px;
+      align-items: start;
+    }
+
+    .check {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      color: #2d3a42;
+      font-size: 14px;
+    }
+
+    .segmented {
+      display: inline-grid;
+      grid-auto-flow: column;
+      gap: 3px;
+      padding: 3px;
+      border: 1px solid #c8d2da;
+      border-radius: 7px;
+      background: var(--soft);
+    }
+
+    .segmented label {
+      display: inline-grid;
+      grid-template-columns: 16px auto;
+      gap: 6px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .segmented label:has(input:checked) {
+      color: #083b36;
+      background: #d8f3ef;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button,
+    .download {
+      appearance: none;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--accent);
+      font: inherit;
+      font-weight: 750;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:hover,
+    .download:hover {
+      background: var(--accent-strong);
+    }
+
+    button.secondary {
+      color: #1c2c34;
+      border-color: #c8d2da;
+      background: #fff;
+    }
+
+    button.secondary:hover {
+      background: #f2f6f8;
+    }
+
+    button:disabled,
+    .download[aria-disabled="true"] {
+      pointer-events: none;
+      opacity: 0.48;
+    }
+
+    .status {
+      min-height: 28px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status.ok {
+      color: #075246;
+      background: #e1f5f1;
+    }
+
+    .status.warn {
+      color: var(--warn);
+      background: #fff5e5;
+    }
+
+    .status.error {
+      color: var(--danger);
+      background: #ffecec;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfd;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 21px;
+      line-height: 1.1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .table-wrap {
+      max-height: 360px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f4f7f9;
+      font-weight: 800;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    textarea.code-output {
+      width: 100%;
+      min-height: 260px;
+      resize: vertical;
+      padding: 12px;
+      color: #122027;
+      background: #fbfcfd;
+      border: 1px solid #c8d2da;
+      border-radius: 6px;
+      font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    .plot-wrap {
+      min-height: 360px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .plot-wrap svg {
+      display: block;
+      min-width: 760px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+    }
+
+    @media (max-width: 850px) {
+      main {
+        width: min(100vw - 20px, 1180px);
+        padding-top: 18px;
+      }
+
+      .panel-header {
+        display: grid;
+      }
+
+      .field.span-3,
+      .field.span-4,
+      .field.span-5,
+      .field.span-6,
+      .field.span-8 {
+        grid-column: span 12;
+      }
+
+      .checks,
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .segmented {
+        grid-auto-flow: row;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Acoustic Data Pipeline</h1>
+      <p>Convert Praat or VoiceSauce-style TXT files, collapse tokens into normalized time intervals, merge token labels, then clean acoustic CSV files with within-speaker outlier removal and z-score columns.</p>
+    </header>
+
+    <div class="layout">
+      <section class="panel" aria-labelledby="txt-title">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2 id="txt-title">1. TXT to CSV</h2>
+            <span>Handles tab-delimited text files and removes trailing empty columns.</span>
+          </div>
+          <div class="actions">
+            <button class="secondary" id="use-converted-for-binning" type="button" disabled>Use Converted for Intervals</button>
+            <button class="secondary" id="use-converted-for-cleaning" type="button" disabled>Use Converted for Cleaning</button>
+            <a class="download" id="download-converted" aria-disabled="true">Download CSV</a>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field span-8">
+              <label for="txt-file">TXT file</label>
+              <input id="txt-file" type="file" accept=".txt,.tsv,text/plain,text/tab-separated-values">
+            </div>
+            <div class="field span-4">
+              <label>Delimiter</label>
+              <div class="segmented" aria-label="TXT delimiter">
+                <label><input type="radio" name="txt-delim" value="tab" checked>Tab</label>
+                <label><input type="radio" name="txt-delim" value="auto">Auto</label>
+              </div>
+            </div>
+          </div>
+          <div class="status" id="txt-status">Choose a TXT file to convert.</div>
+          <div id="txt-preview" class="table-wrap hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="bin-title">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2 id="bin-title">2. Make Normalized Intervals</h2>
+            <span>Split each token into a custom number of equal-duration bins and average selected measures.</span>
+          </div>
+          <div class="actions">
+            <button class="secondary" id="use-binned-for-cleaning" type="button" disabled>Use Binned for Cleaning</button>
+            <a class="download" id="download-binned" aria-disabled="true">Download Binned CSV</a>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field span-8">
+              <label for="bin-file">CSV file for interval binning</label>
+              <input id="bin-file" type="file" accept=".csv,.txt,.tsv,text/csv,text/tab-separated-values">
+            </div>
+            <div class="field span-4">
+              <label for="bin-delimiter">Delimiter</label>
+              <select id="bin-delimiter">
+                <option value="auto">Auto</option>
+                <option value=",">Comma</option>
+                <option value="\t">Tab</option>
+                <option value=";">Semicolon</option>
+              </select>
+            </div>
+
+            <div class="field span-3">
+              <label for="interval-count">Intervals per token</label>
+              <input id="interval-count" type="number" value="3" min="1" step="1" disabled>
+            </div>
+            <div class="field span-3">
+              <label for="bin-start-column">Token start column</label>
+              <select id="bin-start-column" disabled></select>
+            </div>
+            <div class="field span-3">
+              <label for="bin-end-column">Token end column</label>
+              <select id="bin-end-column" disabled></select>
+            </div>
+            <div class="field span-3">
+              <label for="bin-time-column">Frame time column</label>
+              <select id="bin-time-column" disabled></select>
+            </div>
+
+            <div class="field span-6">
+              <label for="bin-token-columns">Token identity columns</label>
+              <select id="bin-token-columns" multiple disabled></select>
+              <span class="hint">Rows with the same selected token columns are treated as one token.</span>
+            </div>
+            <div class="field span-6">
+              <label for="bin-measure-columns">Measures to average</label>
+              <select id="bin-measure-columns" multiple disabled></select>
+              <span class="hint">Numeric acoustic columns are preselected.</span>
+            </div>
+            <div class="field span-6">
+              <label for="bin-average-mode">Primary average</label>
+              <select id="bin-average-mode" disabled>
+                <option value="no0" selected>Without 0 values</option>
+                <option value="with0">With 0 values</option>
+              </select>
+              <span class="hint">The primary output column is measure_mean. Comparison columns can include both versions.</span>
+            </div>
+          </div>
+
+          <div class="checks">
+            <label class="check"><input id="bin-add-zero-report" type="checkbox" checked disabled> <span>Add with/without 0 comparison columns and zero diagnostics</span></label>
+          </div>
+
+          <div class="actions">
+            <button id="run-binning" type="button" disabled>Make Intervals</button>
+            <button class="secondary" id="select-bin-common-measures" type="button" disabled>Select Common Measures</button>
+            <button class="secondary" id="clear-bin-measures" type="button" disabled>Clear Measures</button>
+          </div>
+
+          <div class="status" id="bin-status">Upload a CSV or use the converted file above.</div>
+          <div id="bin-summary" class="summary hidden"></div>
+          <div class="grid hidden" id="bin-export-grid">
+            <div class="field span-12">
+              <label for="bin-export-columns">Binned CSV export columns</label>
+              <select id="bin-export-columns" class="export-columns" multiple disabled></select>
+              <div class="actions">
+                <button class="secondary" id="bin-export-select-all" type="button" disabled>Select All</button>
+                <button class="secondary" id="bin-export-clear" type="button" disabled>Clear</button>
+              </div>
+              <span class="hint">Only selected columns are included in the downloaded binned CSV. Default: all columns.</span>
+            </div>
+          </div>
+          <div id="bin-zero-report" class="table-wrap hidden" aria-live="polite"></div>
+          <div id="bin-preview" class="table-wrap hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="label-title">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2 id="label-title">3. Merge Labels by Token and Time</h2>
+            <span>Attach Full_Label by nearest seg_end within each token, then derive Voicing, Gender, and Context.</span>
+          </div>
+          <div class="actions">
+            <button class="secondary" id="use-converted-for-label-merge" type="button" disabled>Use Converted Data</button>
+            <button class="secondary" id="use-binned-for-label-merge" type="button" disabled>Use Binned Data</button>
+            <button class="secondary" id="use-labeled-for-cleaning" type="button" disabled>Use Labeled for Cleaning</button>
+            <button class="secondary" id="use-labeled-for-analysis" type="button" disabled>Use Labeled for Analysis</button>
+            <a class="download" id="download-labeled" aria-disabled="true">Download Labeled CSV</a>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field span-6">
+              <label for="label-data-file">Data CSV to label</label>
+              <input id="label-data-file" type="file" accept=".csv,.txt,.tsv,text/csv,text/tab-separated-values">
+            </div>
+            <div class="field span-3">
+              <label for="label-data-delimiter">Data delimiter</label>
+              <select id="label-data-delimiter">
+                <option value="auto">Auto</option>
+                <option value=",">Comma</option>
+                <option value="\t">Tab</option>
+                <option value=";">Semicolon</option>
+              </select>
+            </div>
+            <div class="field span-3">
+              <label for="label-data-end-column">Data seg_end column</label>
+              <select id="label-data-end-column" disabled></select>
+            </div>
+
+            <div class="field span-6">
+              <label for="label-lookup-file">Label CSV with Full_Label</label>
+              <input id="label-lookup-file" type="file" accept=".csv,.txt,.tsv,text/csv,text/tab-separated-values">
+            </div>
+            <div class="field span-3">
+              <label for="label-lookup-delimiter">Label delimiter</label>
+              <select id="label-lookup-delimiter">
+                <option value="auto">Auto</option>
+                <option value=",">Comma</option>
+                <option value="\t">Tab</option>
+                <option value=";">Semicolon</option>
+              </select>
+            </div>
+            <div class="field span-3">
+              <label for="label-lookup-end-column">Label seg_end column</label>
+              <select id="label-lookup-end-column" disabled></select>
+            </div>
+
+            <div class="field span-3">
+              <label for="label-data-token-column">Data token column</label>
+              <select id="label-data-token-column" disabled></select>
+              <span class="hint">Use the shared token/file column, usually Filename or token_id.</span>
+            </div>
+            <div class="field span-3">
+              <label for="label-lookup-token-column">Label token column</label>
+              <select id="label-lookup-token-column" disabled></select>
+              <span class="hint">Must refer to the same token identity as the data token column.</span>
+            </div>
+            <div class="field span-3">
+              <label for="label-full-column">Full label column</label>
+              <select id="label-full-column" disabled></select>
+            </div>
+            <div class="field span-3">
+              <label for="label-filename-column">Filename column</label>
+              <select id="label-filename-column" disabled></select>
+              <span class="hint">Gender is the first character of this filename.</span>
+            </div>
+
+            <div class="field span-4">
+              <label for="label-time-tolerance">Maximum time distance</label>
+              <input id="label-time-tolerance" type="number" min="0" step="any" placeholder="Blank = nearest match" disabled>
+              <span class="hint">Same unit as seg_end. Leave blank to always take the closest label within token.</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="run-label-merge" type="button" disabled>Merge Labels</button>
+          </div>
+
+          <div class="status" id="label-status">Upload a data CSV and a label CSV, or use converted/binned data from earlier steps.</div>
+          <div id="label-summary" class="summary hidden"></div>
+          <div class="grid hidden" id="label-export-grid">
+            <div class="field span-12">
+              <label for="label-export-columns">Labeled CSV export columns</label>
+              <select id="label-export-columns" class="export-columns" multiple disabled></select>
+              <div class="actions">
+                <button class="secondary" id="label-export-select-all" type="button" disabled>Select All</button>
+                <button class="secondary" id="label-export-clear" type="button" disabled>Clear</button>
+              </div>
+              <span class="hint">Only selected columns are included in the downloaded labeled CSV. Default: all columns.</span>
+            </div>
+          </div>
+          <div id="label-preview" class="table-wrap hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="clean-title">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2 id="clean-title">4. Clean CSV and Create Within-Speaker z-scores</h2>
+            <span>Select speaker and measure columns, then export a cleaned CSV.</span>
+          </div>
+          <div class="actions">
+            <a class="download" id="download-cleaned" aria-disabled="true">Download Cleaned CSV</a>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field span-8">
+              <label for="csv-file">CSV file</label>
+              <input id="csv-file" type="file" accept=".csv,text/csv">
+            </div>
+            <div class="field span-4">
+              <label for="csv-delimiter">CSV delimiter</label>
+              <select id="csv-delimiter">
+                <option value="auto">Auto</option>
+                <option value=",">Comma</option>
+                <option value="\t">Tab</option>
+                <option value=";">Semicolon</option>
+              </select>
+            </div>
+
+            <div class="field span-4">
+              <label for="speaker-column">Speaker source</label>
+              <select id="speaker-column" disabled></select>
+              <span class="hint">Choose an existing speaker column, or derive speaker IDs from filenames.</span>
+            </div>
+            <div class="field span-4">
+              <label for="filename-column">Filename column</label>
+              <select id="filename-column" disabled></select>
+            </div>
+            <div class="field span-4">
+              <label for="speaker-pattern">Speaker pattern</label>
+              <input id="speaker-pattern" type="text" value="^[^_]+" disabled>
+              <span class="hint">Regular expression for derived speaker IDs. Default keeps text before the first underscore.</span>
+            </div>
+
+            <div class="field span-8">
+              <label for="measure-columns">Measure columns</label>
+              <select id="measure-columns" multiple disabled></select>
+              <span class="hint">Numeric columns are preselected. Use Command-click to adjust.</span>
+            </div>
+            <div class="field span-4">
+              <label for="sd-threshold">Outlier threshold</label>
+              <input id="sd-threshold" type="number" value="3" min="0.1" step="0.1" disabled>
+              <span class="hint">Values farther than this many SDs from each speaker mean.</span>
+            </div>
+
+            <div class="field span-4">
+              <label for="missing-output">Removed-value output</label>
+              <select id="missing-output" disabled>
+                <option value="">Blank</option>
+                <option value="n/a">n/a</option>
+              </select>
+              <span class="hint">How removed outliers and invalid zeros are written in clean columns.</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="checks">
+            <label class="check"><input id="treat-zero-na" type="checkbox" disabled> <span>Treat 0 as missing for selected measures</span></label>
+            <label class="check"><input id="remove-outliers" type="checkbox" checked disabled> <span>Remove within-speaker outliers in clean columns</span></label>
+            <label class="check"><input id="add-zscores" type="checkbox" checked disabled> <span>Add within-speaker z-score columns</span></label>
+            <label class="check"><input id="use-clean-for-z" type="checkbox" checked disabled> <span>Compute z-scores after outlier removal</span></label>
+          </div>
+
+          <div class="actions">
+            <button id="run-cleaning" type="button" disabled>Run Cleaning</button>
+            <button class="secondary" id="select-common-measures" type="button" disabled>Select Common Measures</button>
+            <button class="secondary" id="clear-measures" type="button" disabled>Clear Measures</button>
+          </div>
+
+          <div class="status" id="clean-status">Upload a CSV file to configure cleaning.</div>
+          <div id="clean-summary" class="summary hidden"></div>
+          <div class="grid hidden" id="clean-export-grid">
+            <div class="field span-12">
+              <label for="clean-export-columns">Cleaned CSV export columns</label>
+              <select id="clean-export-columns" class="export-columns" multiple disabled></select>
+              <div class="actions">
+                <button class="secondary" id="clean-export-select-all" type="button" disabled>Select All</button>
+                <button class="secondary" id="clean-export-clear" type="button" disabled>Clear</button>
+              </div>
+              <span class="hint">Only selected columns are included in the downloaded cleaned CSV. Default: all columns.</span>
+            </div>
+          </div>
+          <div id="outlier-preview" class="table-wrap hidden" aria-live="polite"></div>
+          <div id="clean-preview" class="table-wrap hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="analysis-title">
+        <div class="panel-header">
+          <div class="panel-title">
+            <h2 id="analysis-title">5. Analysis and Visualization</h2>
+            <span>Generate selectable R code for lmer/emmeans and draw quick mean +/- SE plots in the browser.</span>
+          </div>
+          <div class="actions">
+            <button class="secondary" id="use-binned-for-analysis" type="button" disabled>Use Binned Data</button>
+            <button class="secondary" id="use-cleaned-for-analysis" type="button" disabled>Use Cleaned Data</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field span-8">
+              <label for="analysis-file">CSV file for analysis</label>
+              <input id="analysis-file" type="file" accept=".csv,text/csv">
+            </div>
+            <div class="field span-4">
+              <label for="analysis-delimiter">Delimiter</label>
+              <select id="analysis-delimiter">
+                <option value="auto">Auto</option>
+                <option value=",">Comma</option>
+                <option value="\t">Tab</option>
+                <option value=";">Semicolon</option>
+              </select>
+            </div>
+
+            <div class="field span-4">
+              <label for="model-response">Model response</label>
+              <select id="model-response" disabled></select>
+            </div>
+            <div class="field span-4">
+              <label for="model-fixed">Fixed effects</label>
+              <select id="model-fixed" multiple disabled></select>
+              <span class="hint">Selected effects are joined with * for interactions.</span>
+            </div>
+            <div class="field span-4">
+              <label for="model-random">Random intercept</label>
+              <select id="model-random" disabled></select>
+            </div>
+
+            <div class="field span-4">
+              <label for="emmeans-factor">emmeans pairwise factor</label>
+              <select id="emmeans-factor" disabled></select>
+            </div>
+            <div class="field span-4">
+              <label for="emmeans-adjust">p-value adjustment</label>
+              <select id="emmeans-adjust" disabled>
+                <option value="bonferroni">bonferroni</option>
+                <option value="tukey">tukey</option>
+                <option value="holm">holm</option>
+                <option value="none">none</option>
+              </select>
+            </div>
+            <div class="field span-4">
+              <label for="analysis-data-name">R data object name</label>
+              <input id="analysis-data-name" type="text" value="data_noise" disabled>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="generate-r-code" type="button" disabled>Generate R Code</button>
+            <button class="secondary" id="copy-r-code" type="button" disabled>Copy R Code</button>
+          </div>
+
+          <textarea id="r-code-output" class="code-output" spellcheck="false" placeholder="R code will appear here." readonly></textarea>
+
+          <div class="divider"></div>
+
+          <div class="grid">
+            <div class="field span-3">
+              <label for="plot-y">Y measure</label>
+              <select id="plot-y" disabled></select>
+            </div>
+            <div class="field span-3">
+              <label for="plot-x">X interval</label>
+              <select id="plot-x" disabled></select>
+            </div>
+            <div class="field span-3">
+              <label for="plot-color">Color/group</label>
+              <select id="plot-color" disabled></select>
+            </div>
+            <div class="field span-3">
+              <label for="plot-facet">Facet</label>
+              <select id="plot-facet" disabled></select>
+            </div>
+
+            <div class="field span-4">
+              <label for="plot-x-title">X axis title</label>
+              <input id="plot-x-title" type="text" value="Normalised time intervals" disabled>
+            </div>
+            <div class="field span-4">
+              <label for="plot-y-title">Y axis title</label>
+              <input id="plot-y-title" type="text" value="Measure (z-score)" disabled>
+            </div>
+            <div class="field span-4">
+              <label for="plot-color-title">Legend title</label>
+              <input id="plot-color-title" type="text" value="Group" disabled>
+            </div>
+
+            <div class="field span-6">
+              <label for="plot-x-labels">X label map</label>
+              <input id="plot-x-labels" type="text" value="1=First,2=Middle,3=Final" disabled>
+            </div>
+            <div class="field span-6">
+              <label for="plot-facet-labels">Facet label map</label>
+              <input id="plot-facet-labels" type="text" value="I=Initial,M=Medial" disabled>
+            </div>
+          </div>
+
+          <div class="checks">
+            <label class="check"><input id="plot-errorbars" type="checkbox" checked disabled> <span>Show mean +/- SE error bars</span></label>
+          </div>
+
+          <div class="actions">
+            <button id="draw-plot" type="button" disabled>Draw Plot</button>
+            <button class="secondary" id="download-plot-svg" type="button" disabled>Download SVG</button>
+          </div>
+
+          <div class="status" id="analysis-status">Upload a CSV, or use binned/cleaned data from earlier steps.</div>
+          <div id="plot-output" class="plot-wrap hidden" aria-live="polite"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const state = {
+      convertedRows: null,
+      convertedHeaders: null,
+      convertedName: "converted.csv",
+      binSourceRows: null,
+      binSourceHeaders: null,
+      binSourceName: "binned.csv",
+      binnedRows: null,
+      binnedHeaders: null,
+      labelDataRows: null,
+      labelDataHeaders: null,
+      labelDataName: "labeled.csv",
+      labelLookupRows: null,
+      labelLookupHeaders: null,
+      labeledRows: null,
+      labeledHeaders: null,
+      csvRows: null,
+      csvHeaders: null,
+      csvName: "cleaned.csv",
+      cleanedRows: null,
+      cleanedHeaders: null,
+      analysisRows: null,
+      analysisHeaders: null,
+      analysisName: "analysis.csv",
+      currentPlotSvg: "",
+      downloads: new Map()
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const commonMeasureNames = [
+      "CPP", "CPP_mean", "CPP_z", "CPP_mean_z",
+      "HNR05", "HNR05_mean", "HNR05_z", "HNR05_mean_z",
+      "HNR15", "HNR15_mean", "HNR15_z", "HNR15_mean_z",
+      "HNR25", "HNR25_mean", "HNR25_z", "HNR25_mean_z",
+      "HNR35", "HNR35_mean", "HNR35_z", "HNR35_mean_z",
+      "H1c", "H4c", "H2Kc", "H1H2c", "H2H4c",
+      "H1A1c", "H1A2c", "H1A3c", "H42Kc", "H2KH5Kc", "H5Ku",
+      "H1c_mean", "H4c_mean", "H2Kc_mean", "H1H2c_mean", "H2H4c_mean",
+      "H1A1c_mean", "H1A2c_mean", "H1A3c_mean", "H42Kc_mean", "H2KH5Kc_mean", "H5Ku_mean"
+    ];
+
+    function setStatus(element, message, kind = "") {
+      element.textContent = message;
+      element.className = `status ${kind}`.trim();
+    }
+
+    function selectedExportHeaders(selectId, headers) {
+      if (!selectId) return headers;
+      const select = $(selectId);
+      if (!select) return headers;
+      return getSelectedOptions(select).filter((header) => headers.includes(header));
+    }
+
+    function configureExportColumns(selectId, gridId, headers, selectedHeaders = headers) {
+      const select = $(selectId);
+      const grid = $(gridId);
+      fillSelect(select, headers, selectedHeaders);
+      select.disabled = false;
+      const prefix = selectId.replace("-columns", "");
+      $(`${prefix}-select-all`).disabled = false;
+      $(`${prefix}-clear`).disabled = false;
+      grid.classList.remove("hidden");
+    }
+
+    function resetExportColumns(selectId, gridId) {
+      const select = $(selectId);
+      const grid = $(gridId);
+      if (select) {
+        select.innerHTML = "";
+        select.disabled = true;
+      }
+      const prefix = selectId.replace("-columns", "");
+      if ($(`${prefix}-select-all`)) $(`${prefix}-select-all`).disabled = true;
+      if ($(`${prefix}-clear`)) $(`${prefix}-clear`).disabled = true;
+      if (grid) grid.classList.add("hidden");
+    }
+
+    function setDownload(link, rows, headers, filename, exportSelectId = "") {
+      if (!rows || !headers || rows.length === 0) {
+        if (link.dataset.url) URL.revokeObjectURL(link.dataset.url);
+        state.downloads.delete(link.id);
+        link.removeAttribute("href");
+        link.removeAttribute("download");
+        delete link.dataset.url;
+        link.setAttribute("aria-disabled", "true");
+        return;
+      }
+      const csv = toCsv(rows, selectedExportHeaders(exportSelectId, headers));
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      if (link.dataset.url) URL.revokeObjectURL(link.dataset.url);
+      link.dataset.url = url;
+      state.downloads.set(link.id, { rows, headers, filename, exportSelectId });
+      link.href = url;
+      link.download = filename;
+      link.setAttribute("aria-disabled", "false");
+    }
+
+    function triggerDownload(link) {
+      if (link.getAttribute("aria-disabled") === "true") return;
+      const cached = state.downloads.get(link.id);
+      if (!cached) return;
+      const headers = selectedExportHeaders(cached.exportSelectId, cached.headers);
+      if (!headers.length) {
+        window.alert("Select at least one column to export.");
+        return;
+      }
+      const csv = toCsv(cached.rows, headers);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = cached.filename;
+      anchor.style.display = "none";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+    }
+
+    ["download-converted", "download-binned", "download-labeled", "download-cleaned"].forEach((id) => {
+      $(id).addEventListener("click", (event) => {
+        event.preventDefault();
+        triggerDownload($(id));
+      });
+    });
+
+    function setAllSelected(selectId, selected) {
+      const select = $(selectId);
+      for (const option of select.options) option.selected = selected;
+    }
+
+    ["bin-export", "label-export", "clean-export"].forEach((prefix) => {
+      $(`${prefix}-select-all`).addEventListener("click", () => {
+        setAllSelected(`${prefix}-columns`, true);
+      });
+      $(`${prefix}-clear`).addEventListener("click", () => {
+        setAllSelected(`${prefix}-columns`, false);
+      });
+    });
+
+    function stripBom(text) {
+      return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
+    }
+
+    function normalizeNewlines(text) {
+      return stripBom(text).replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    }
+
+    function detectDelimiter(text) {
+      const firstLine = normalizeNewlines(text).split("\n").find((line) => line.trim().length > 0) || "";
+      const candidates = ["\t", ",", ";"];
+      let best = ",";
+      let bestCount = -1;
+      for (const delimiter of candidates) {
+        const count = firstLine.split(delimiter).length - 1;
+        if (count > bestCount) {
+          best = delimiter;
+          bestCount = count;
+        }
+      }
+      return best;
+    }
+
+    function parseDelimited(text, delimiter) {
+      const source = normalizeNewlines(text);
+      const delim = delimiter === "auto" ? detectDelimiter(source) : delimiter;
+      const rows = [];
+      let row = [];
+      let field = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < source.length; i += 1) {
+        const char = source[i];
+        const next = source[i + 1];
+
+        if (char === "\"") {
+          if (inQuotes && next === "\"") {
+            field += "\"";
+            i += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === delim && !inQuotes) {
+          row.push(field);
+          field = "";
+        } else if (char === "\n" && !inQuotes) {
+          row.push(field);
+          rows.push(row);
+          row = [];
+          field = "";
+        } else {
+          field += char;
+        }
+      }
+
+      if (field.length > 0 || row.length > 0) {
+        row.push(field);
+        rows.push(row);
+      }
+
+      while (rows.length && rows[rows.length - 1].every((cell) => cell.trim() === "")) {
+        rows.pop();
+      }
+
+      if (!rows.length) {
+        throw new Error("No rows found.");
+      }
+
+      const maxColumns = Math.max(...rows.map((line) => line.length));
+      const padded = rows.map((line) => {
+        const out = line.slice();
+        while (out.length < maxColumns) out.push("");
+        return out;
+      });
+
+      const rawHeaders = padded[0].map((header) => header.trim());
+      let headers = rawHeaders.slice();
+      let body = padded.slice(1);
+
+      const keepIndexes = rawHeaders
+        .map((header, index) => ({ header, index }))
+        .filter(({ header, index }) => header !== "" || body.some((line) => line[index] && line[index].trim() !== ""))
+        .map(({ index }) => index);
+
+      headers = keepIndexes.map((index) => rawHeaders[index] || `Column_${index + 1}`);
+      headers = uniquifyHeaders(headers);
+      body = body.map((line) => keepIndexes.map((index) => line[index] ?? ""));
+
+      const objects = body.map((line) => Object.fromEntries(headers.map((header, index) => [header, line[index] ?? ""])));
+      return { headers, rows: objects, delimiter: delim };
+    }
+
+    function uniquifyHeaders(headers) {
+      const seen = new Map();
+      return headers.map((header) => {
+        const base = header.trim() || "Column";
+        const count = seen.get(base) || 0;
+        seen.set(base, count + 1);
+        return count === 0 ? base : `${base}_${count + 1}`;
+      });
+    }
+
+    function escapeCsv(value) {
+      const text = value === null || value === undefined ? "" : String(value);
+      return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, "\"\"")}"` : text;
+    }
+
+    function toCsv(rows, headers) {
+      const lines = [headers.map(escapeCsv).join(",")];
+      for (const row of rows) {
+        lines.push(headers.map((header) => escapeCsv(row[header])).join(","));
+      }
+      return `${lines.join("\n")}\n`;
+    }
+
+    function renderPreview(container, rows, headers, caption) {
+      if (!rows || !rows.length) {
+        container.innerHTML = "";
+        container.classList.add("hidden");
+        return;
+      }
+      const previewRows = rows.slice(0, 25);
+      const previewHeaders = headers.slice(0, 16);
+      const hiddenCols = headers.length - previewHeaders.length;
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      for (const header of previewHeaders) {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+      }
+      if (hiddenCols > 0) {
+        const th = document.createElement("th");
+        th.textContent = `+${hiddenCols} cols`;
+        headerRow.appendChild(th);
+      }
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      for (const row of previewRows) {
+        const tr = document.createElement("tr");
+        for (const header of previewHeaders) {
+          const td = document.createElement("td");
+          td.textContent = row[header] ?? "";
+          tr.appendChild(td);
+        }
+        if (hiddenCols > 0) {
+          const td = document.createElement("td");
+          td.textContent = "";
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+
+      container.innerHTML = "";
+      if (caption) {
+        const status = document.createElement("div");
+        status.className = "status ok";
+        status.textContent = caption;
+        container.appendChild(status);
+      }
+      container.appendChild(table);
+      container.classList.remove("hidden");
+    }
+
+    async function readFileAsText(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.onerror = () => reject(reader.error || new Error("Could not read file."));
+        reader.readAsText(file);
+      });
+    }
+
+    function getSelectedOptions(select) {
+      return Array.from(select.selectedOptions).map((option) => option.value);
+    }
+
+    function fillSelect(select, values, selectedValues = []) {
+      const selected = new Set(selectedValues);
+      select.innerHTML = "";
+      for (const value of values) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        option.selected = selected.has(value);
+        select.appendChild(option);
+      }
+    }
+
+    function enableCleaningControls(enabled) {
+      [
+        "speaker-column", "filename-column", "speaker-pattern", "measure-columns",
+        "sd-threshold", "missing-output", "treat-zero-na", "remove-outliers", "add-zscores",
+        "use-clean-for-z", "run-cleaning", "select-common-measures", "clear-measures"
+      ].forEach((id) => {
+        $(id).disabled = !enabled;
+      });
+    }
+
+    function enableBinningControls(enabled) {
+      [
+        "interval-count", "bin-start-column", "bin-end-column", "bin-time-column",
+        "bin-token-columns", "bin-measure-columns", "bin-average-mode", "bin-add-zero-report", "run-binning",
+        "select-bin-common-measures", "clear-bin-measures"
+      ].forEach((id) => {
+        $(id).disabled = !enabled;
+      });
+    }
+
+    function enableLabelControls(enabled) {
+      [
+        "label-data-end-column", "label-lookup-end-column", "label-data-token-column",
+        "label-lookup-token-column", "label-full-column", "label-filename-column",
+        "label-time-tolerance", "run-label-merge"
+      ].forEach((id) => {
+        $(id).disabled = !enabled;
+      });
+    }
+
+    function enableAnalysisControls(enabled) {
+      [
+        "model-response", "model-fixed", "model-random", "emmeans-factor",
+        "emmeans-adjust", "analysis-data-name", "generate-r-code", "copy-r-code",
+        "plot-y", "plot-x", "plot-color", "plot-facet", "plot-x-title",
+        "plot-y-title", "plot-color-title", "plot-x-labels", "plot-facet-labels",
+        "plot-errorbars", "draw-plot", "download-plot-svg"
+      ].forEach((id) => {
+        $(id).disabled = !enabled;
+      });
+    }
+
+    function numericValue(value) {
+      if (value === null || value === undefined) return NaN;
+      const text = String(value).trim();
+      const lower = text.toLowerCase();
+      if (text === "" || lower === "na" || lower === "n/a" || lower === "nan") return NaN;
+      return Number(text);
+    }
+
+    function isNumericColumn(rows, header) {
+      let seen = 0;
+      let numeric = 0;
+      for (const row of rows.slice(0, 500)) {
+        const text = String(row[header] ?? "").trim();
+        if (text === "") continue;
+        seen += 1;
+        if (Number.isFinite(Number(text))) numeric += 1;
+      }
+      return seen > 0 && numeric / seen >= 0.9;
+    }
+
+    function guessHeader(headers, candidates) {
+      const lower = new Map(headers.map((header) => [header.toLowerCase(), header]));
+      for (const candidate of candidates) {
+        const direct = lower.get(candidate.toLowerCase());
+        if (direct) return direct;
+      }
+      return headers[0];
+    }
+
+    function defaultTokenColumns(headers) {
+      const wanted = ["Filename", "Label", "seg_Start", "seg_End"];
+      const exact = wanted.filter((name) => headers.includes(name));
+      if (exact.length) return exact;
+      return headers.slice(0, Math.min(4, headers.length));
+    }
+
+    function defaultMeasureColumns(rows, headers, excluded = []) {
+      const exclude = new Set(excluded.filter(Boolean));
+      const numericHeaders = headers.filter((header) => !exclude.has(header) && isNumericColumn(rows, header));
+      const commonSelected = numericHeaders.filter((header) => commonMeasureNames.includes(header));
+      return commonSelected.length ? commonSelected : numericHeaders;
+    }
+
+    function pickFirstExisting(headers, candidates, fallback = "") {
+      for (const candidate of candidates) {
+        if (headers.includes(candidate)) return candidate;
+      }
+      return fallback || headers[0] || "";
+    }
+
+    function firstChars(value, count) {
+      return Array.from(String(value || "").trim()).slice(0, count).join("");
+    }
+
+    function lastChar(value) {
+      const chars = Array.from(String(value || "").trim());
+      return chars.length ? chars[chars.length - 1] : "";
+    }
+
+    function normalizeLabelPrefix(value) {
+      return firstChars(value, 5).toLowerCase().replace(/\s+/g, "");
+    }
+
+    function deriveVoicingFromFullLabel(fullLabel) {
+      const prefix = normalizeLabelPrefix(fullLabel);
+      if (!prefix) return "";
+      if (prefix.startsWith("t\\^")) return "th";
+      if (prefix.startsWith("t\\v")) return "t";
+      return "d";
+    }
+
+    function deriveContextFromFullLabel(fullLabel) {
+      const context = lastChar(fullLabel);
+      if (!context) return "";
+      return context === "I" ? "I" : "M";
+    }
+
+    function makeTokenKey(row, column) {
+      return column === "__all__" ? "__all__" : String(row[column] ?? "").trim();
+    }
+
+    function labelOutputName(name) {
+      return (name || "labeled.csv").replace(/\.[^.]+$/i, "_labeled.csv");
+    }
+
+    function defaultLabelToken(headers) {
+      const guess = pickFirstExisting(headers, ["Filename", "filename", "token_id", "Token", "token", "Label"], "");
+      return guess || "__all__";
+    }
+
+    function mean(values) {
+      if (!values.length) return NaN;
+      return values.reduce((sum, value) => sum + value, 0) / values.length;
+    }
+
+    function sampleSd(values, m) {
+      if (values.length < 2) return NaN;
+      const variance = values.reduce((sum, value) => sum + ((value - m) ** 2), 0) / (values.length - 1);
+      return Math.sqrt(variance);
+    }
+
+    function formatDecimal(value, digits = 4) {
+      if (!Number.isFinite(value)) return "";
+      return value.toFixed(digits).replace(/\.?0+$/, "");
+    }
+
+    function deriveSpeaker(row, speakerColumn, filenameColumn, pattern) {
+      if (speakerColumn !== "__derive__") return String(row[speakerColumn] ?? "").trim();
+      const filename = String(row[filenameColumn] ?? "").trim();
+      if (!filename) return "";
+      try {
+        const regex = new RegExp(pattern || "^[^_]+");
+        const match = filename.match(regex);
+        return match ? match[0] : filename;
+      } catch {
+        const match = filename.match(/^[^_]+/);
+        return match ? match[0] : filename;
+      }
+    }
+
+    function configureBinning(rows, headers, name) {
+      state.binSourceRows = rows;
+      state.binSourceHeaders = headers;
+      state.binSourceName = name || "binned.csv";
+      state.binnedRows = null;
+      state.binnedHeaders = null;
+      $("download-binned").removeAttribute("href");
+      $("download-binned").setAttribute("aria-disabled", "true");
+      $("use-binned-for-cleaning").disabled = true;
+      $("use-binned-for-label-merge").disabled = true;
+      resetExportColumns("bin-export-columns", "bin-export-grid");
+
+      const startGuess = guessHeader(headers, ["seg_Start", "seg_start", "start", "start_ms"]);
+      const endGuess = guessHeader(headers, ["seg_End", "seg_end", "end", "end_ms"]);
+      const timeGuess = guessHeader(headers, ["t_ms", "time", "Time", "frame_time"]);
+      const tokenSelected = defaultTokenColumns(headers);
+      const measureSelected = defaultMeasureColumns(rows, headers, [...tokenSelected, startGuess, endGuess, timeGuess]);
+
+      fillSelect($("bin-start-column"), headers, [startGuess]);
+      fillSelect($("bin-end-column"), headers, [endGuess]);
+      fillSelect($("bin-time-column"), headers, [timeGuess]);
+      fillSelect($("bin-token-columns"), headers, tokenSelected);
+      fillSelect($("bin-measure-columns"), headers, measureSelected);
+      enableBinningControls(true);
+
+      setStatus($("bin-status"), `Loaded ${rows.length.toLocaleString()} rows for interval binning.`, "ok");
+      renderPreview($("bin-preview"), rows, headers, "Binning input preview");
+      $("bin-summary").classList.add("hidden");
+      $("bin-zero-report").classList.add("hidden");
+    }
+
+    function buildZeroReport(groups, measureColumns, intervalCount) {
+      const report = new Map();
+      for (let bin = 1; bin <= intervalCount; bin += 1) {
+        for (const measure of measureColumns) {
+          const key = `${bin}\u0001${measure}`;
+          report.set(key, {
+            norm_bin: String(bin),
+            Measure: measure,
+            "Token-bin rows": 0,
+            "Frame count": 0,
+            "Zero count": 0,
+            valuesWith0: [],
+            valuesNo0: []
+          });
+        }
+      }
+
+      for (const group of groups.values()) {
+        for (const measure of measureColumns) {
+          const key = `${group.norm_bin}\u0001${measure}`;
+          const entry = report.get(key);
+          if (!entry) continue;
+          const valuesWith0 = group.__values[measure];
+          const valuesNo0 = valuesWith0.filter((value) => value !== 0);
+          entry["Token-bin rows"] += 1;
+          entry["Frame count"] += group.__count;
+          entry["Zero count"] += group.__zeroCounts[measure];
+          entry.valuesWith0.push(...valuesWith0);
+          entry.valuesNo0.push(...valuesNo0);
+        }
+      }
+
+      return Array.from(report.values()).map((entry) => {
+        const meanWith0 = mean(entry.valuesWith0);
+        const meanNo0 = mean(entry.valuesNo0);
+        const diff = Number.isFinite(meanWith0) && Number.isFinite(meanNo0) ? meanNo0 - meanWith0 : NaN;
+        const zeroRate = entry["Frame count"] > 0 ? entry["Zero count"] / entry["Frame count"] : NaN;
+        return {
+          norm_bin: entry.norm_bin,
+          Measure: entry.Measure,
+          "Token-bin rows": String(entry["Token-bin rows"]),
+          "Frame count": String(entry["Frame count"]),
+          "Zero count": String(entry["Zero count"]),
+          "Zero rate": formatDecimal(zeroRate),
+          "Mean with 0": formatDecimal(meanWith0),
+          "Mean without 0": formatDecimal(meanNo0),
+          "No0 - with0": formatDecimal(diff)
+        };
+      });
+    }
+
+    function binRows() {
+      const rows = state.binSourceRows;
+      const headers = state.binSourceHeaders;
+      const intervalCount = Math.floor(Number($("interval-count").value));
+      const startColumn = $("bin-start-column").value;
+      const endColumn = $("bin-end-column").value;
+      const timeColumn = $("bin-time-column").value;
+      const tokenColumns = getSelectedOptions($("bin-token-columns"));
+      const measureColumns = getSelectedOptions($("bin-measure-columns"));
+      const averageMode = $("bin-average-mode").value;
+      const addZeroReport = $("bin-add-zero-report").checked;
+
+      if (!rows || !headers) throw new Error("Upload a CSV file or use the converted file first.");
+      if (!Number.isInteger(intervalCount) || intervalCount < 1) throw new Error("Intervals per token must be a positive integer.");
+      if (!startColumn || !endColumn || !timeColumn) throw new Error("Choose start, end, and frame time columns.");
+      if (!tokenColumns.length) throw new Error("Select at least one token identity column.");
+      if (!measureColumns.length) throw new Error("Select at least one measure column to average.");
+
+      const groups = new Map();
+      let skippedRows = 0;
+
+      for (const row of rows) {
+        const start = numericValue(row[startColumn]);
+        const end = numericValue(row[endColumn]);
+        const time = numericValue(row[timeColumn]);
+        if (!Number.isFinite(start) || !Number.isFinite(end) || !Number.isFinite(time) || end <= start) {
+          skippedRows += 1;
+          continue;
+        }
+        const rel = Math.min(Math.max((time - start) / (end - start), 0), 0.999999);
+        const normBin = Math.floor(rel * intervalCount) + 1;
+        const tokenValues = tokenColumns.map((column) => String(row[column] ?? ""));
+        const tokenId = tokenValues.join("_");
+        const key = `${tokenId}\u0001${normBin}`;
+
+        if (!groups.has(key)) {
+          const out = {};
+          tokenColumns.forEach((column) => {
+            out[column] = row[column] ?? "";
+          });
+          out.token_id = tokenId;
+          out.norm_bin = String(normBin);
+          out.__count = 0;
+          out.__values = Object.fromEntries(measureColumns.map((measure) => [measure, []]));
+          out.__zeroCounts = Object.fromEntries(measureColumns.map((measure) => [measure, 0]));
+          groups.set(key, out);
+        }
+
+        const group = groups.get(key);
+        group.__count += 1;
+        for (const measure of measureColumns) {
+          const value = numericValue(row[measure]);
+          if (Number.isFinite(value)) {
+            group.__values[measure].push(value);
+            if (value === 0) group.__zeroCounts[measure] += 1;
+          }
+        }
+      }
+
+      const measureHeaders = [];
+      for (const measure of measureColumns) {
+        measureHeaders.push(`${measure}_mean`);
+        if (addZeroReport) {
+          measureHeaders.push(
+            `${measure}_mean_with0`,
+            `${measure}_mean_no0`,
+            `${measure}_mean_diff_no0_minus_with0`,
+            `${measure}_zero_count`,
+            `${measure}_zero_rate`,
+            `${measure}_n_valid_no0`
+          );
+        }
+      }
+      const outputHeaders = [...tokenColumns, "token_id", "norm_bin", ...measureHeaders, "n_frames"];
+      const outputRows = Array.from(groups.values()).map((group) => {
+        const out = {};
+        tokenColumns.forEach((column) => {
+          out[column] = group[column] ?? "";
+        });
+        out.token_id = group.token_id;
+        out.norm_bin = group.norm_bin;
+        for (const measure of measureColumns) {
+          const valuesWith0 = group.__values[measure];
+          const valuesNo0 = valuesWith0.filter((value) => value !== 0);
+          const meanWith0 = mean(valuesWith0);
+          const meanNo0 = mean(valuesNo0);
+          const primaryMean = averageMode === "with0" ? meanWith0 : meanNo0;
+          const zeroCount = group.__zeroCounts[measure];
+          const zeroRate = group.__count > 0 ? zeroCount / group.__count : NaN;
+          const diff = Number.isFinite(meanWith0) && Number.isFinite(meanNo0) ? meanNo0 - meanWith0 : NaN;
+          out[`${measure}_mean`] = Number.isFinite(primaryMean) ? String(primaryMean) : "";
+          if (addZeroReport) {
+            out[`${measure}_mean_with0`] = Number.isFinite(meanWith0) ? String(meanWith0) : "";
+            out[`${measure}_mean_no0`] = Number.isFinite(meanNo0) ? String(meanNo0) : "";
+            out[`${measure}_mean_diff_no0_minus_with0`] = Number.isFinite(diff) ? String(diff) : "";
+            out[`${measure}_zero_count`] = String(zeroCount);
+            out[`${measure}_zero_rate`] = Number.isFinite(zeroRate) ? String(zeroRate) : "";
+            out[`${measure}_n_valid_no0`] = String(valuesNo0.length);
+          }
+        }
+        out.n_frames = String(group.__count);
+        return out;
+      });
+
+      outputRows.sort((a, b) => {
+        for (const column of tokenColumns) {
+          const av = a[column] ?? "";
+          const bv = b[column] ?? "";
+          const an = numericValue(av);
+          const bn = numericValue(bv);
+          if (Number.isFinite(an) && Number.isFinite(bn) && an !== bn) return an - bn;
+          const cmp = String(av).localeCompare(String(bv));
+          if (cmp !== 0) return cmp;
+        }
+        return Number(a.norm_bin) - Number(b.norm_bin);
+      });
+
+      const zeroReport = buildZeroReport(groups, measureColumns, intervalCount);
+      const tokenCount = new Set(outputRows.map((row) => row.token_id)).size;
+      const totalZeroCount = zeroReport.reduce((sum, row) => sum + Number(row["Zero count"] || 0), 0);
+      const totalFrameCount = zeroReport.reduce((sum, row) => sum + Number(row["Frame count"] || 0), 0);
+      const summary = {
+        rows: rows.length,
+        tokens: tokenCount,
+        intervals: intervalCount,
+        outputRows: outputRows.length,
+        skippedRows,
+        averageMode,
+        totalZeroCount,
+        overallZeroRate: totalFrameCount ? totalZeroCount / totalFrameCount : NaN
+      };
+
+      return { rows: outputRows, headers: outputHeaders, summary, zeroReport };
+    }
+
+    function configureLabelData(rows, headers, name) {
+      state.labelDataRows = rows;
+      state.labelDataHeaders = headers;
+      state.labelDataName = labelOutputName(name);
+      state.labeledRows = null;
+      state.labeledHeaders = null;
+      setDownload($("download-labeled"), null, null, state.labelDataName);
+      $("use-labeled-for-cleaning").disabled = true;
+      $("use-labeled-for-analysis").disabled = true;
+      resetExportColumns("label-export-columns", "label-export-grid");
+
+      const dataEnd = guessHeader(headers, ["seg_End", "seg_end", "seg_end2", "end", "End"]);
+      const filename = pickFirstExisting(headers, ["Filename", "filename", "File", "file"], headers[0]);
+      fillSelect($("label-data-end-column"), headers, [dataEnd]);
+      fillSelect($("label-data-token-column"), ["__all__", ...headers], [defaultLabelToken(headers)]);
+      $("label-data-token-column").querySelector('option[value="__all__"]').textContent = "No token grouping";
+      fillSelect($("label-filename-column"), headers, [filename]);
+      setStatus($("label-status"), `Loaded ${rows.length.toLocaleString()} data rows for label merging. Add the label CSV too.`, "ok");
+      renderPreview($("label-preview"), rows, headers, "Label-merge data preview");
+      $("label-summary").classList.add("hidden");
+      configureLabelMergeControls();
+    }
+
+    function configureLabelLookup(rows, headers, name) {
+      state.labelLookupRows = rows;
+      state.labelLookupHeaders = headers;
+      const lookupEnd = guessHeader(headers, ["seg_End", "seg_end", "seg_end2", "end", "End"]);
+      const fullLabel = pickFirstExisting(headers, ["Full_Label", "full_label", "Full label", "full label", "Location", "Label"], headers[0]);
+      fillSelect($("label-lookup-end-column"), headers, [lookupEnd]);
+      fillSelect($("label-lookup-token-column"), ["__all__", ...headers], [defaultLabelToken(headers)]);
+      $("label-lookup-token-column").querySelector('option[value="__all__"]').textContent = "No token grouping";
+      fillSelect($("label-full-column"), headers, [fullLabel]);
+      const dataPart = state.labelDataRows ? `${state.labelDataRows.length.toLocaleString()} data rows and ` : "";
+      setStatus($("label-status"), `Loaded ${dataPart}${rows.length.toLocaleString()} label rows.`, "ok");
+      if (!state.labelDataRows) renderPreview($("label-preview"), rows, headers, "Label lookup preview");
+      configureLabelMergeControls();
+    }
+
+    function configureLabelMergeControls() {
+      const ready = Boolean(state.labelDataRows && state.labelLookupRows);
+      enableLabelControls(ready);
+      if (ready) {
+        setStatus(
+          $("label-status"),
+          `Ready to merge ${state.labelDataRows.length.toLocaleString()} data rows with ${state.labelLookupRows.length.toLocaleString()} label rows.`,
+          "ok"
+        );
+      }
+    }
+
+    function mergeLabelRows() {
+      const dataRows = state.labelDataRows;
+      const dataHeaders = state.labelDataHeaders;
+      const lookupRows = state.labelLookupRows;
+      const lookupHeaders = state.labelLookupHeaders;
+      const dataEndColumn = $("label-data-end-column").value;
+      const lookupEndColumn = $("label-lookup-end-column").value;
+      const dataTokenColumn = $("label-data-token-column").value;
+      const lookupTokenColumn = $("label-lookup-token-column").value;
+      const fullLabelColumn = $("label-full-column").value;
+      const filenameColumn = $("label-filename-column").value;
+      const toleranceText = $("label-time-tolerance").value.trim();
+      const tolerance = toleranceText === "" ? NaN : Number(toleranceText);
+
+      if (!dataRows || !dataHeaders || !lookupRows || !lookupHeaders) {
+        throw new Error("Load both the data CSV and the label CSV first.");
+      }
+      if (!dataEndColumn || !lookupEndColumn || !fullLabelColumn || !filenameColumn) {
+        throw new Error("Choose seg_end, Full_Label, and Filename columns.");
+      }
+      if (toleranceText !== "" && (!Number.isFinite(tolerance) || tolerance < 0)) {
+        throw new Error("Maximum time distance must be blank or a non-negative number.");
+      }
+
+      const lookupByToken = new Map();
+      let skippedLabelRows = 0;
+      for (const row of lookupRows) {
+        const end = numericValue(row[lookupEndColumn]);
+        if (!Number.isFinite(end)) {
+          skippedLabelRows += 1;
+          continue;
+        }
+        const tokenKey = makeTokenKey(row, lookupTokenColumn);
+        if (!lookupByToken.has(tokenKey)) lookupByToken.set(tokenKey, []);
+        lookupByToken.get(tokenKey).push({
+          end,
+          fullLabel: String(row[fullLabelColumn] ?? "")
+        });
+      }
+
+      const outputHeaders = dataHeaders.slice();
+      ["Full_Label", "Voicing", "Gender", "Context"].forEach((header) => {
+        if (!outputHeaders.includes(header)) outputHeaders.push(header);
+      });
+
+      let matched = 0;
+      let unmatched = 0;
+      let skippedDataRows = 0;
+      let totalDistance = 0;
+
+      const outputRows = dataRows.map((row) => {
+        const out = { ...row };
+        const dataEnd = numericValue(row[dataEndColumn]);
+        const tokenKey = makeTokenKey(row, dataTokenColumn);
+        const candidates = lookupByToken.get(tokenKey) || [];
+        let best = null;
+        let bestDistance = Infinity;
+
+        if (Number.isFinite(dataEnd)) {
+          for (const candidate of candidates) {
+            const distance = Math.abs(dataEnd - candidate.end);
+            if (distance < bestDistance) {
+              best = candidate;
+              bestDistance = distance;
+            }
+          }
+        } else {
+          skippedDataRows += 1;
+        }
+
+        if (best && (!Number.isFinite(tolerance) || bestDistance <= tolerance)) {
+          const fullLabel = best.fullLabel;
+          out.Full_Label = fullLabel;
+          out.Voicing = deriveVoicingFromFullLabel(fullLabel);
+          out.Gender = firstChars(row[filenameColumn], 1);
+          out.Context = deriveContextFromFullLabel(fullLabel);
+          matched += 1;
+          totalDistance += bestDistance;
+        } else {
+          out.Full_Label = "";
+          out.Voicing = "";
+          out.Gender = firstChars(row[filenameColumn], 1);
+          out.Context = "";
+          unmatched += 1;
+        }
+        return out;
+      });
+
+      const summary = {
+        rows: outputRows.length,
+        matched,
+        unmatched,
+        avgDistance: matched ? totalDistance / matched : NaN,
+        skippedLabelRows,
+        skippedDataRows
+      };
+      return { rows: outputRows, headers: outputHeaders, summary };
+    }
+
+    function cleanRows() {
+      const rows = state.csvRows;
+      const headers = state.csvHeaders;
+      const measures = getSelectedOptions($("measure-columns"));
+      const speakerColumn = $("speaker-column").value;
+      const filenameColumn = $("filename-column").value;
+      const pattern = $("speaker-pattern").value;
+      const threshold = Number($("sd-threshold").value) || 3;
+      const missingOutput = $("missing-output").value;
+      const treatZeroAsMissing = $("treat-zero-na").checked;
+      const removeOutliers = $("remove-outliers").checked;
+      const addZscores = $("add-zscores").checked;
+      const useCleanForZ = $("use-clean-for-z").checked;
+
+      if (!rows || !headers) throw new Error("Upload a CSV file first.");
+      if (!measures.length) throw new Error("Select at least one measure column.");
+
+      const working = rows.map((row) => ({ ...row }));
+      const speakerHeader = speakerColumn === "__derive__" ? "Speaker_derived" : speakerColumn;
+      if (speakerColumn === "__derive__" && !headers.includes(speakerHeader)) {
+        working.forEach((row) => {
+          row[speakerHeader] = deriveSpeaker(row, speakerColumn, filenameColumn, pattern);
+        });
+      }
+
+      const outputHeaders = headers.slice();
+      if (!outputHeaders.includes(speakerHeader)) outputHeaders.push(speakerHeader);
+
+      const groups = new Map();
+      working.forEach((row, index) => {
+        const speaker = speakerColumn === "__derive__"
+          ? String(row[speakerHeader] ?? "")
+          : deriveSpeaker(row, speakerColumn, filenameColumn, pattern);
+        row[speakerHeader] = speaker;
+        if (!groups.has(speaker)) groups.set(speaker, []);
+        groups.get(speaker).push(index);
+      });
+
+      const outlierStats = [];
+      const summary = {
+        rows: working.length,
+        speakers: Array.from(groups.keys()).filter((speaker) => speaker !== "").length,
+        measures: measures.length,
+        outliers: 0,
+        zerosToMissing: 0
+      };
+
+      for (const measure of measures) {
+        const cleanColumn = `${measure}_clean`;
+        const zColumn = `${measure}_z_spk`;
+        const addedCleanColumn = removeOutliers || treatZeroAsMissing;
+        if (addedCleanColumn && !outputHeaders.includes(cleanColumn)) outputHeaders.push(cleanColumn);
+        if (addZscores && !outputHeaders.includes(zColumn)) outputHeaders.push(zColumn);
+
+        let outlierCount = 0;
+        let zeroCount = 0;
+        const valuesForZBySpeaker = new Map();
+
+        for (const [speaker, indexes] of groups.entries()) {
+          const originalValues = indexes
+            .map((index) => numericValue(working[index][measure]))
+            .filter((value) => Number.isFinite(value) && !(treatZeroAsMissing && value === 0));
+          const m = mean(originalValues);
+          const sd = sampleSd(originalValues, m);
+
+          for (const index of indexes) {
+            const original = numericValue(working[index][measure]);
+            let cleaned = original;
+            let isMissing = !Number.isFinite(original);
+            if (treatZeroAsMissing && original === 0) {
+              isMissing = true;
+              cleaned = NaN;
+              zeroCount += 1;
+            }
+            const isOutlier = !isMissing && Number.isFinite(sd) && sd > 0 && Math.abs(original - m) > threshold * sd;
+            if (removeOutliers && isOutlier) {
+              cleaned = NaN;
+              outlierCount += 1;
+            }
+            if (addedCleanColumn) {
+              working[index][cleanColumn] = Number.isFinite(cleaned) ? String(cleaned) : missingOutput;
+            }
+          }
+
+          const zSourceValues = indexes
+            .map((index) => {
+              const value = useCleanForZ && addedCleanColumn
+                ? numericValue(working[index][cleanColumn])
+                : numericValue(working[index][measure]);
+              return treatZeroAsMissing && value === 0 ? NaN : value;
+            })
+            .filter((value) => Number.isFinite(value));
+          const zMean = mean(zSourceValues);
+          const zSd = sampleSd(zSourceValues, zMean);
+          valuesForZBySpeaker.set(speaker, { zMean, zSd });
+        }
+
+        if (addZscores) {
+          for (const [speaker, indexes] of groups.entries()) {
+            const { zMean, zSd } = valuesForZBySpeaker.get(speaker);
+            for (const index of indexes) {
+              const source = useCleanForZ && (removeOutliers || treatZeroAsMissing)
+                ? numericValue(working[index][cleanColumn])
+                : numericValue(working[index][measure]);
+              if (Number.isFinite(source) && Number.isFinite(zSd) && zSd > 0) {
+                working[index][zColumn] = String((source - zMean) / zSd);
+              } else {
+                working[index][zColumn] = "";
+              }
+            }
+          }
+        }
+
+        summary.outliers += outlierCount;
+        summary.zerosToMissing += zeroCount;
+        outlierStats.push({
+          Measure: measure,
+          "Zeros set blank": zeroCount,
+          "Outliers set blank": outlierCount,
+          "Clean column": addedCleanColumn ? cleanColumn : "",
+          "Z-score column": addZscores ? zColumn : ""
+        });
+      }
+
+      return { rows: working, headers: outputHeaders, summary, outlierStats };
+    }
+
+    function renderSummary(summary) {
+      const container = $("clean-summary");
+      const items = [
+        ["Rows", summary.rows.toLocaleString()],
+        ["Speakers", summary.speakers.toLocaleString()],
+        ["Measures", summary.measures.toLocaleString()],
+        ["Outliers", summary.outliers.toLocaleString()]
+      ];
+      container.innerHTML = "";
+      for (const [label, value] of items) {
+        const metric = document.createElement("div");
+        metric.className = "metric";
+        metric.innerHTML = `<strong>${value}</strong><span>${label}</span>`;
+        container.appendChild(metric);
+      }
+      container.classList.remove("hidden");
+    }
+
+    function renderBinSummary(summary) {
+      const container = $("bin-summary");
+      const averageLabel = summary.averageMode === "with0" ? "With 0" : "Without 0";
+      const zeroRate = Number.isFinite(summary.overallZeroRate) ? `${(summary.overallZeroRate * 100).toFixed(1)}%` : "";
+      const items = [
+        ["Input rows", summary.rows.toLocaleString()],
+        ["Tokens", summary.tokens.toLocaleString()],
+        ["Intervals", summary.intervals.toLocaleString()],
+        ["Output rows", summary.outputRows.toLocaleString()],
+        ["Primary mean", averageLabel],
+        ["Zeros", summary.totalZeroCount.toLocaleString()],
+        ["Zero rate", zeroRate]
+      ];
+      container.innerHTML = "";
+      for (const [label, value] of items) {
+        const metric = document.createElement("div");
+        metric.className = "metric";
+        metric.innerHTML = `<strong>${value}</strong><span>${label}</span>`;
+        container.appendChild(metric);
+      }
+      container.classList.remove("hidden");
+    }
+
+    function renderBinZeroReport(rows) {
+      const headers = [
+        "Bin", "Measure", "Token-bin rows", "Frame count",
+        "Zero count", "Zero rate", "Mean with 0", "Mean without 0", "No0 - with0"
+      ];
+      const displayRows = rows.map((row) => {
+        const zeroRate = Number(row["Zero rate"]);
+        return {
+          Bin: `bin${row.norm_bin}`,
+          Measure: row.Measure,
+          "Token-bin rows": row["Token-bin rows"],
+          "Frame count": row["Frame count"],
+          "Zero count": row["Zero count"],
+          "Zero rate": Number.isFinite(zeroRate) ? `${(zeroRate * 100).toFixed(1)}%` : "",
+          "Mean with 0": row["Mean with 0"],
+          "Mean without 0": row["Mean without 0"],
+          "No0 - with0": row["No0 - with0"]
+        };
+      });
+
+      const container = $("bin-zero-report");
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      for (const header of headers) {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+      }
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      for (const row of displayRows) {
+        const tr = document.createElement("tr");
+        for (const header of headers) {
+          const td = document.createElement("td");
+          td.textContent = row[header] ?? "";
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+
+      container.innerHTML = "";
+      const caption = document.createElement("div");
+      caption.className = "status ok";
+      caption.textContent = `Zero diagnostics by bin and measure (${displayRows.length.toLocaleString()} rows)`;
+      container.appendChild(caption);
+      container.appendChild(table);
+      container.classList.remove("hidden");
+    }
+
+    function renderLabelSummary(summary) {
+      const container = $("label-summary");
+      const avgDistance = Number.isFinite(summary.avgDistance) ? summary.avgDistance.toFixed(4) : "";
+      const items = [
+        ["Rows", summary.rows.toLocaleString()],
+        ["Matched", summary.matched.toLocaleString()],
+        ["Unmatched", summary.unmatched.toLocaleString()],
+        ["Mean distance", avgDistance]
+      ];
+      container.innerHTML = "";
+      for (const [label, value] of items) {
+        const metric = document.createElement("div");
+        metric.className = "metric";
+        metric.innerHTML = `<strong>${value}</strong><span>${label}</span>`;
+        container.appendChild(metric);
+      }
+      container.classList.remove("hidden");
+    }
+
+    function configureCsv(rows, headers, name) {
+      state.csvRows = rows;
+      state.csvHeaders = headers;
+      state.csvName = name || "cleaned.csv";
+      state.cleanedRows = null;
+      state.cleanedHeaders = null;
+      $("download-cleaned").removeAttribute("href");
+      $("download-cleaned").setAttribute("aria-disabled", "true");
+      resetExportColumns("clean-export-columns", "clean-export-grid");
+
+      const numericHeaders = headers.filter((header) => isNumericColumn(rows, header));
+      const commonSelected = numericHeaders.filter((header) => commonMeasureNames.includes(header));
+      const selected = commonSelected.length ? commonSelected : numericHeaders;
+      fillSelect($("measure-columns"), headers, selected);
+
+      const speakerOptions = ["__derive__", ...headers];
+      fillSelect($("speaker-column"), speakerOptions, headers.includes("Speaker") ? ["Speaker"] : ["__derive__"]);
+      $("speaker-column").querySelector('option[value="__derive__"]').textContent = "Derive from Filename";
+
+      const filenameGuess = headers.find((header) => header.toLowerCase() === "filename") || headers[0];
+      fillSelect($("filename-column"), headers, [filenameGuess]);
+      enableCleaningControls(true);
+
+      setStatus($("clean-status"), `Loaded ${rows.length.toLocaleString()} rows and ${headers.length} columns. Select measures, then run cleaning.`, "ok");
+      renderPreview($("clean-preview"), rows, headers, "Input preview");
+      $("outlier-preview").classList.add("hidden");
+      $("clean-summary").classList.add("hidden");
+    }
+
+    function configureAnalysis(rows, headers, name) {
+      state.analysisRows = rows;
+      state.analysisHeaders = headers;
+      state.analysisName = name || "analysis.csv";
+      state.currentPlotSvg = "";
+      const numericHeaders = headers.filter((header) => isNumericColumn(rows, header));
+      const response = pickFirstExisting(headers, ["HNR05_mean_z", "HNR05_z", "CPP_mean_z", "CPP_z"], numericHeaders[0] || headers[0]);
+      const plotY = pickFirstExisting(headers, ["HNR25_mean_z", "HNR25_z", "CPP_mean_z", "CPP_z", response], numericHeaders[0] || response);
+      const fixedDefaults = ["Place", "Context", "Voicing"].filter((header) => headers.includes(header));
+      const randomDefault = pickFirstExisting(headers, ["Filename", "Speaker", "token_id"], "__none__");
+      const emmeansDefault = pickFirstExisting(headers, ["Place", "Voicing", "Context"], fixedDefaults[0] || headers[0]);
+      const xDefault = pickFirstExisting(headers, ["norm_bin", "bin", "norm_bin3"], headers[0]);
+      const colorDefault = pickFirstExisting(headers, ["Place", "Voicing", "Manner"], "__none__");
+      const facetDefault = pickFirstExisting(headers, ["Context"], "__none__");
+
+      fillSelect($("model-response"), headers, [response]);
+      fillSelect($("model-fixed"), headers, fixedDefaults);
+      fillSelect($("model-random"), ["__none__", ...headers], [randomDefault]);
+      $("model-random").querySelector('option[value="__none__"]').textContent = "No random effect";
+      fillSelect($("emmeans-factor"), headers, [emmeansDefault]);
+      fillSelect($("plot-y"), headers, [plotY]);
+      fillSelect($("plot-x"), headers, [xDefault]);
+      fillSelect($("plot-color"), ["__none__", ...headers], [colorDefault]);
+      $("plot-color").querySelector('option[value="__none__"]').textContent = "No color/group";
+      fillSelect($("plot-facet"), ["__none__", ...headers], [facetDefault]);
+      $("plot-facet").querySelector('option[value="__none__"]').textContent = "No facet";
+
+      syncPlotTitles();
+      $("r-code-output").value = "";
+      $("plot-output").innerHTML = "";
+      $("plot-output").classList.add("hidden");
+      enableAnalysisControls(true);
+      setStatus($("analysis-status"), `Loaded ${rows.length.toLocaleString()} rows and ${headers.length} columns for analysis.`, "ok");
+    }
+
+    function rColumn(name) {
+      return /^[A-Za-z.][A-Za-z0-9._]*$/.test(name) ? name : `\`${name.replace(/`/g, "\\`")}\``;
+    }
+
+    function rString(value) {
+      return `"${String(value).replace(/\\/g, "\\\\").replace(/"/g, "\\\"")}"`;
+    }
+
+    function makeRName(value) {
+      const cleaned = String(value).replace(/[^A-Za-z0-9_.]+/g, "_").replace(/^([^A-Za-z.])/, "m_$1");
+      return cleaned || "model";
+    }
+
+    function prettyColumnName(column) {
+      return String(column || "")
+        .replace(/_mean_z_spk$/i, "")
+        .replace(/_z_spk$/i, "")
+        .replace(/_mean_z$/i, "")
+        .replace(/_z$/i, "")
+        .replace(/_mean$/i, "")
+        .replace(/_/g, " ")
+        .trim();
+    }
+
+    function plotYTitleFor(column) {
+      const name = prettyColumnName(column) || column;
+      return /(_z_spk|_mean_z|_z)$/i.test(String(column || "")) ? `${name} (z-score)` : name;
+    }
+
+    function plotXTitleFor(column) {
+      const text = String(column || "");
+      return /^(norm_)?bin|norm_bin/i.test(text) ? "Normalised time intervals" : (prettyColumnName(text) || text);
+    }
+
+    function syncPlotTitles() {
+      $("plot-x-title").value = plotXTitleFor($("plot-x").value);
+      $("plot-y-title").value = plotYTitleFor($("plot-y").value);
+      $("plot-color-title").value = $("plot-color").value === "__none__" ? "Group" : (prettyColumnName($("plot-color").value) || $("plot-color").value);
+    }
+
+    function generateRCode() {
+      const rows = state.analysisRows;
+      const headers = state.analysisHeaders;
+      if (!rows || !headers) throw new Error("Load analysis data first.");
+      const response = $("model-response").value;
+      const fixed = getSelectedOptions($("model-fixed"));
+      const random = $("model-random").value;
+      const emmeansFactor = $("emmeans-factor").value;
+      const adjust = $("emmeans-adjust").value;
+      const dataName = $("analysis-data-name").value.trim() || "data_noise";
+      const modelName = `lme_${makeRName(response)}`;
+      const fixedTerm = fixed.length ? fixed.map(rColumn).join("*") : "1";
+      const randomTerm = random && random !== "__none__" ? ` + (1|${rColumn(random)})` : "";
+      const factorColumns = Array.from(new Set([...fixed, random, emmeansFactor].filter((column) => column && column !== "__none__" && column !== response)));
+      const factorMutate = factorColumns.length
+        ? factorColumns.map((column) => `    ${rColumn(column)} = factor(${rColumn(column)})`).join(",\n")
+        : "";
+      const mutateBlock = [
+        `    ${rColumn(response)} = as.numeric(${rColumn(response)})`,
+        factorMutate
+      ].filter(Boolean).join(",\n");
+
+      return [
+        "library(tidyverse)",
+        "library(lme4)",
+        "library(lmerTest)",
+        "library(emmeans)",
+        "",
+        `${dataName} <- read_csv(${rString(state.analysisName)}, show_col_types = FALSE) %>%`,
+        "  mutate(",
+        mutateBlock,
+        "  )",
+        "",
+        `${modelName} <- lmer(`,
+        `  ${rColumn(response)} ~ ${fixedTerm}${randomTerm},`,
+        `  data = ${dataName},`,
+        "  REML = FALSE",
+        ")",
+        "",
+        `summary(${modelName})`,
+        `anova(${modelName}, type = 3)`,
+        "",
+        `${makeRName(emmeansFactor)}_emmeans <- emmeans(${modelName}, pairwise ~ ${rColumn(emmeansFactor)}, adjust = ${rString(adjust)})`,
+        `${makeRName(emmeansFactor)}_emmeans`
+      ].join("\n");
+    }
+
+    function parseLabelMap(text) {
+      const map = new Map();
+      String(text || "").split(",").forEach((pair) => {
+        const [rawKey, ...rawValue] = pair.split("=");
+        const key = rawKey ? rawKey.trim() : "";
+        const value = rawValue.join("=").trim();
+        if (key) map.set(key, value || key);
+      });
+      return map;
+    }
+
+    function labelValue(value, labelMap) {
+      const key = String(value);
+      return labelMap.get(key) || key;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function sortedValues(values) {
+      return Array.from(new Set(values.map((value) => String(value)))).sort((a, b) => {
+        const an = Number(a);
+        const bn = Number(b);
+        if (Number.isFinite(an) && Number.isFinite(bn) && an !== bn) return an - bn;
+        return a.localeCompare(b);
+      });
+    }
+
+    function drawPlotSvg() {
+      const rows = state.analysisRows;
+      const headers = state.analysisHeaders;
+      if (!rows || !headers) throw new Error("Load analysis data first.");
+      const yColumn = $("plot-y").value;
+      const xColumn = $("plot-x").value;
+      const colorColumn = $("plot-color").value;
+      const facetColumn = $("plot-facet").value;
+      const showErrorbars = $("plot-errorbars").checked;
+      const xTitle = $("plot-x-title").value || xColumn;
+      const yTitle = $("plot-y-title").value || yColumn;
+      const legendTitle = $("plot-color-title").value || colorColumn;
+      const xLabels = parseLabelMap($("plot-x-labels").value);
+      const facetLabels = parseLabelMap($("plot-facet-labels").value);
+      const facetValues = facetColumn === "__none__" ? ["All"] : sortedValues(rows.map((row) => row[facetColumn] ?? ""));
+      const xValues = sortedValues(rows.map((row) => row[xColumn] ?? "").filter((value) => String(value) !== ""));
+      const groupValues = colorColumn === "__none__" ? ["All"] : sortedValues(rows.map((row) => row[colorColumn] ?? ""));
+      if (!xValues.length) throw new Error("No x-axis values found.");
+
+      const stats = new Map();
+      for (const row of rows) {
+        const y = numericValue(row[yColumn]);
+        if (!Number.isFinite(y)) continue;
+        const facet = facetColumn === "__none__" ? "All" : String(row[facetColumn] ?? "");
+        const group = colorColumn === "__none__" ? "All" : String(row[colorColumn] ?? "");
+        const x = String(row[xColumn] ?? "");
+        if (!x) continue;
+        const key = `${facet}\u0001${group}\u0001${x}`;
+        if (!stats.has(key)) stats.set(key, []);
+        stats.get(key).push(y);
+      }
+
+      const points = [];
+      for (const [key, values] of stats.entries()) {
+        const [facet, group, x] = key.split("\u0001");
+        const m = mean(values);
+        const sd = sampleSd(values, m);
+        const se = Number.isFinite(sd) ? sd / Math.sqrt(values.length) : 0;
+        points.push({ facet, group, x, mean: m, se, n: values.length });
+      }
+      if (!points.length) throw new Error("No numeric y values found for this plot.");
+
+      let yMin = Math.min(...points.map((point) => point.mean - (showErrorbars ? point.se : 0)));
+      let yMax = Math.max(...points.map((point) => point.mean + (showErrorbars ? point.se : 0)));
+      if (yMin === yMax) {
+        yMin -= 1;
+        yMax += 1;
+      }
+      const pad = (yMax - yMin) * 0.12;
+      yMin -= pad;
+      yMax += pad;
+
+      const palette = ["#e76f61", "#13b6bd", "#6f73d2", "#2a9d55", "#b85c9e", "#d9921e", "#4f7cac", "#8a6f3d"];
+      const colorFor = new Map(groupValues.map((group, index) => [group, palette[index % palette.length]]));
+      const margin = { top: 54, right: 150, bottom: 82, left: 74 };
+      const facetWidth = Math.max(300, Math.floor((940 - margin.left - margin.right) / Math.max(1, facetValues.length)));
+      const panelGap = 18;
+      const panelHeight = 310;
+      const width = margin.left + margin.right + facetValues.length * facetWidth + (facetValues.length - 1) * panelGap;
+      const height = margin.top + panelHeight + margin.bottom;
+      const yScale = (value) => margin.top + ((yMax - value) / (yMax - yMin)) * panelHeight;
+      const ticks = 5;
+      const yTicks = Array.from({ length: ticks }, (_, i) => yMin + (i * (yMax - yMin)) / (ticks - 1));
+      const xPos = (facetIndex, x) => {
+        const panelLeft = margin.left + facetIndex * (facetWidth + panelGap);
+        if (xValues.length === 1) return panelLeft + facetWidth / 2;
+        const index = xValues.indexOf(x);
+        return panelLeft + 24 + (index * (facetWidth - 48)) / (xValues.length - 1);
+      };
+
+      const parts = [
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Mean plot">`,
+        `<rect width="${width}" height="${height}" fill="#ffffff"/>`
+      ];
+
+      for (const tick of yTicks) {
+        const y = yScale(tick);
+        parts.push(`<line x1="${margin.left - 6}" x2="${width - margin.right + 8}" y1="${y}" y2="${y}" stroke="#e6ecef" stroke-width="1"/>`);
+        parts.push(`<text x="${margin.left - 12}" y="${y + 4}" text-anchor="end" font-size="12" fill="#33434c">${tick.toFixed(1)}</text>`);
+      }
+
+      facetValues.forEach((facet, facetIndex) => {
+        const left = margin.left + facetIndex * (facetWidth + panelGap);
+        const right = left + facetWidth;
+        parts.push(`<rect x="${left}" y="10" width="${facetWidth}" height="30" fill="#fbfcfd" stroke="#172026" stroke-width="1.5"/>`);
+        parts.push(`<text x="${left + facetWidth / 2}" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#33434c">${escapeHtml(labelValue(facet, facetLabels))}</text>`);
+        parts.push(`<line x1="${left}" x2="${left}" y1="${margin.top}" y2="${margin.top + panelHeight}" stroke="#172026" stroke-width="1.5"/>`);
+        parts.push(`<line x1="${left}" x2="${right}" y1="${margin.top + panelHeight}" y2="${margin.top + panelHeight}" stroke="#172026" stroke-width="1.5"/>`);
+
+        xValues.forEach((x) => {
+          const xpos = xPos(facetIndex, x);
+          parts.push(`<text x="${xpos}" y="${margin.top + panelHeight + 28}" text-anchor="middle" font-size="13" fill="#172026">${escapeHtml(labelValue(x, xLabels))}</text>`);
+        });
+
+        groupValues.forEach((group) => {
+          const groupPoints = points
+            .filter((point) => point.facet === facet && point.group === group)
+            .sort((a, b) => xValues.indexOf(a.x) - xValues.indexOf(b.x));
+          if (!groupPoints.length) return;
+          const color = colorFor.get(group);
+          const linePoints = groupPoints.map((point) => `${xPos(facetIndex, point.x)},${yScale(point.mean)}`).join(" ");
+          parts.push(`<polyline points="${linePoints}" fill="none" stroke="${color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`);
+          groupPoints.forEach((point) => {
+            const x = xPos(facetIndex, point.x);
+            const y = yScale(point.mean);
+            if (showErrorbars) {
+              const yLow = yScale(point.mean - point.se);
+              const yHigh = yScale(point.mean + point.se);
+              parts.push(`<line x1="${x}" x2="${x}" y1="${yLow}" y2="${yHigh}" stroke="${color}" stroke-width="2"/>`);
+              parts.push(`<line x1="${x - 6}" x2="${x + 6}" y1="${yLow}" y2="${yLow}" stroke="${color}" stroke-width="2"/>`);
+              parts.push(`<line x1="${x - 6}" x2="${x + 6}" y1="${yHigh}" y2="${yHigh}" stroke="${color}" stroke-width="2"/>`);
+            }
+            parts.push(`<circle cx="${x}" cy="${y}" r="5" fill="${color}" stroke="#ffffff" stroke-width="1.5"/>`);
+          });
+        });
+      });
+
+      const legendX = width - margin.right + 32;
+      parts.push(`<text x="${legendX}" y="${margin.top + 12}" font-size="14" font-weight="700" fill="#172026">${escapeHtml(legendTitle)}</text>`);
+      groupValues.forEach((group, index) => {
+        const y = margin.top + 38 + index * 24;
+        const color = colorFor.get(group);
+        parts.push(`<line x1="${legendX}" x2="${legendX + 24}" y1="${y}" y2="${y}" stroke="${color}" stroke-width="3"/>`);
+        parts.push(`<circle cx="${legendX + 12}" cy="${y}" r="5" fill="${color}" stroke="#ffffff" stroke-width="1.5"/>`);
+        parts.push(`<text x="${legendX + 34}" y="${y + 4}" font-size="13" fill="#172026">${escapeHtml(group)}</text>`);
+      });
+
+      parts.push(`<text x="${margin.left + (width - margin.left - margin.right) / 2}" y="${height - 22}" text-anchor="middle" font-size="16" fill="#172026">${escapeHtml(xTitle)}</text>`);
+      parts.push(`<text transform="translate(24 ${margin.top + panelHeight / 2}) rotate(-90)" text-anchor="middle" font-size="16" fill="#172026">${escapeHtml(yTitle)}</text>`);
+      parts.push("</svg>");
+      return parts.join("");
+    }
+
+    $("txt-file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await readFileAsText(file);
+        const choice = document.querySelector('input[name="txt-delim"]:checked').value;
+        const delimiter = choice === "tab" ? "\t" : "auto";
+        const parsed = parseDelimited(text, delimiter);
+        state.convertedRows = parsed.rows;
+        state.convertedHeaders = parsed.headers;
+        state.convertedName = file.name.replace(/\.[^.]+$/, "") + ".csv";
+        setDownload($("download-converted"), parsed.rows, parsed.headers, state.convertedName);
+        $("use-converted-for-binning").disabled = false;
+        $("use-converted-for-cleaning").disabled = false;
+        $("use-converted-for-label-merge").disabled = false;
+        setStatus($("txt-status"), `Converted ${parsed.rows.length.toLocaleString()} data rows with ${parsed.headers.length} columns.`, "ok");
+        renderPreview($("txt-preview"), parsed.rows, parsed.headers, "Converted preview");
+      } catch (error) {
+        setStatus($("txt-status"), error.message, "error");
+      }
+    });
+
+    $("use-converted-for-binning").addEventListener("click", () => {
+      if (!state.convertedRows) return;
+      configureBinning(state.convertedRows, state.convertedHeaders, state.convertedName.replace(/\.csv$/i, "_binned.csv"));
+    });
+
+    $("use-converted-for-cleaning").addEventListener("click", () => {
+      if (!state.convertedRows) return;
+      configureCsv(state.convertedRows, state.convertedHeaders, state.convertedName.replace(/\.csv$/, "_cleaned.csv"));
+    });
+
+    $("use-converted-for-label-merge").addEventListener("click", () => {
+      if (!state.convertedRows) return;
+      configureLabelData(state.convertedRows, state.convertedHeaders, state.convertedName);
+    });
+
+    $("bin-file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await readFileAsText(file);
+        const parsed = parseDelimited(text, $("bin-delimiter").value);
+        configureBinning(parsed.rows, parsed.headers, file.name.replace(/\.[^.]+$/i, "_binned.csv"));
+      } catch (error) {
+        setStatus($("bin-status"), error.message, "error");
+      }
+    });
+
+    $("select-bin-common-measures").addEventListener("click", () => {
+      const select = $("bin-measure-columns");
+      for (const option of select.options) {
+        option.selected = commonMeasureNames.includes(option.value) || /(CPP|HNR|H1|H2|H4|A1|A2|A3|H5K)/i.test(option.value);
+      }
+    });
+
+    $("clear-bin-measures").addEventListener("click", () => {
+      for (const option of $("bin-measure-columns").options) option.selected = false;
+    });
+
+    $("run-binning").addEventListener("click", () => {
+      try {
+        const result = binRows();
+        state.binnedRows = result.rows;
+        state.binnedHeaders = result.headers;
+        configureExportColumns("bin-export-columns", "bin-export-grid", result.headers);
+        setDownload($("download-binned"), result.rows, result.headers, state.binSourceName, "bin-export-columns");
+        $("use-binned-for-cleaning").disabled = false;
+        $("use-binned-for-label-merge").disabled = false;
+        $("use-binned-for-analysis").disabled = false;
+        renderBinSummary(result.summary);
+        renderBinZeroReport(result.zeroReport);
+        renderPreview($("bin-preview"), result.rows, result.headers, "Binned output preview");
+        const skipped = result.summary.skippedRows > 0 ? ` ${result.summary.skippedRows.toLocaleString()} rows skipped because timing was invalid.` : "";
+        const zeroText = ` ${result.summary.totalZeroCount.toLocaleString()} zero values found across selected measures (${(result.summary.overallZeroRate * 100 || 0).toFixed(1)}% of selected measure frames).`;
+        setStatus(
+          $("bin-status"),
+          `Finished ${result.summary.intervals} intervals per token: ${result.summary.outputRows.toLocaleString()} output rows.${zeroText}${skipped}`,
+          result.summary.skippedRows > 0 ? "warn" : "ok"
+        );
+      } catch (error) {
+        setStatus($("bin-status"), error.message, "error");
+      }
+    });
+
+    $("use-binned-for-cleaning").addEventListener("click", () => {
+      if (!state.binnedRows) return;
+      configureCsv(state.binnedRows, state.binnedHeaders, state.binSourceName.replace(/\.csv$/i, "_cleaned.csv"));
+    });
+
+    $("use-binned-for-label-merge").addEventListener("click", () => {
+      if (!state.binnedRows) return;
+      configureLabelData(state.binnedRows, state.binnedHeaders, state.binSourceName);
+    });
+
+    $("label-data-file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await readFileAsText(file);
+        const parsed = parseDelimited(text, $("label-data-delimiter").value);
+        configureLabelData(parsed.rows, parsed.headers, file.name);
+      } catch (error) {
+        setStatus($("label-status"), error.message, "error");
+      }
+    });
+
+    $("label-lookup-file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await readFileAsText(file);
+        const parsed = parseDelimited(text, $("label-lookup-delimiter").value);
+        configureLabelLookup(parsed.rows, parsed.headers, file.name);
+      } catch (error) {
+        setStatus($("label-status"), error.message, "error");
+      }
+    });
+
+    $("run-label-merge").addEventListener("click", () => {
+      try {
+        const result = mergeLabelRows();
+        state.labeledRows = result.rows;
+        state.labeledHeaders = result.headers;
+        configureExportColumns("label-export-columns", "label-export-grid", result.headers);
+        setDownload($("download-labeled"), result.rows, result.headers, state.labelDataName, "label-export-columns");
+        $("use-labeled-for-cleaning").disabled = false;
+        $("use-labeled-for-analysis").disabled = false;
+        renderLabelSummary(result.summary);
+        renderPreview($("label-preview"), result.rows, result.headers, "Labeled output preview");
+        const skipped = result.summary.skippedLabelRows > 0 || result.summary.skippedDataRows > 0
+          ? ` ${result.summary.skippedLabelRows.toLocaleString()} label rows and ${result.summary.skippedDataRows.toLocaleString()} data rows had invalid seg_end.`
+          : "";
+        setStatus(
+          $("label-status"),
+          `Finished label merge: ${result.summary.matched.toLocaleString()} matched, ${result.summary.unmatched.toLocaleString()} unmatched.${skipped}`,
+          result.summary.unmatched > 0 || skipped ? "warn" : "ok"
+        );
+      } catch (error) {
+        setStatus($("label-status"), error.message, "error");
+      }
+    });
+
+    $("use-labeled-for-cleaning").addEventListener("click", () => {
+      if (!state.labeledRows) return;
+      configureCsv(state.labeledRows, state.labeledHeaders, state.labelDataName.replace(/\.csv$/i, "_cleaned.csv"));
+    });
+
+    $("use-labeled-for-analysis").addEventListener("click", () => {
+      if (!state.labeledRows) return;
+      configureAnalysis(state.labeledRows, state.labeledHeaders, state.labelDataName);
+    });
+
+    $("csv-file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await readFileAsText(file);
+        const parsed = parseDelimited(text, $("csv-delimiter").value);
+        configureCsv(parsed.rows, parsed.headers, file.name.replace(/\.csv$/i, "_cleaned.csv"));
+      } catch (error) {
+        setStatus($("clean-status"), error.message, "error");
+      }
+    });
+
+    $("select-common-measures").addEventListener("click", () => {
+      const select = $("measure-columns");
+      for (const option of select.options) {
+        option.selected = commonMeasureNames.includes(option.value) || /(_mean|_z|CPP|HNR|H1|H2|H4|A1|A2|A3|H5K)/i.test(option.value);
+      }
+    });
+
+    $("clear-measures").addEventListener("click", () => {
+      for (const option of $("measure-columns").options) option.selected = false;
+    });
+
+    $("run-cleaning").addEventListener("click", () => {
+      try {
+        const result = cleanRows();
+        state.cleanedRows = result.rows;
+        state.cleanedHeaders = result.headers;
+        configureExportColumns("clean-export-columns", "clean-export-grid", result.headers);
+        setDownload($("download-cleaned"), result.rows, result.headers, state.csvName, "clean-export-columns");
+        $("use-cleaned-for-analysis").disabled = false;
+        renderSummary(result.summary);
+        renderPreview($("outlier-preview"), result.outlierStats, Object.keys(result.outlierStats[0] || {}), "Cleaning summary by measure");
+        renderPreview($("clean-preview"), result.rows, result.headers, "Cleaned preview");
+        setStatus(
+          $("clean-status"),
+          `Finished. ${result.summary.outliers.toLocaleString()} outliers set blank; ${result.summary.zerosToMissing.toLocaleString()} zeros set blank.`,
+          "ok"
+        );
+      } catch (error) {
+        setStatus($("clean-status"), error.message, "error");
+      }
+    });
+
+    $("use-binned-for-analysis").addEventListener("click", () => {
+      if (!state.binnedRows) return;
+      configureAnalysis(state.binnedRows, state.binnedHeaders, state.binSourceName);
+    });
+
+    $("use-cleaned-for-analysis").addEventListener("click", () => {
+      if (!state.cleanedRows) return;
+      configureAnalysis(state.cleanedRows, state.cleanedHeaders, state.csvName);
+    });
+
+    $("analysis-file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await readFileAsText(file);
+        const parsed = parseDelimited(text, $("analysis-delimiter").value);
+        configureAnalysis(parsed.rows, parsed.headers, file.name);
+      } catch (error) {
+        setStatus($("analysis-status"), error.message, "error");
+      }
+    });
+
+    ["plot-x", "plot-y", "plot-color"].forEach((id) => {
+      $(id).addEventListener("change", syncPlotTitles);
+    });
+
+    $("generate-r-code").addEventListener("click", () => {
+      try {
+        $("r-code-output").value = generateRCode();
+        $("copy-r-code").disabled = false;
+        setStatus($("analysis-status"), "R code generated. Run it in R/RStudio for lmer and emmeans output.", "ok");
+      } catch (error) {
+        setStatus($("analysis-status"), error.message, "error");
+      }
+    });
+
+    $("copy-r-code").addEventListener("click", async () => {
+      const code = $("r-code-output").value;
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code);
+        setStatus($("analysis-status"), "R code copied to clipboard.", "ok");
+      } catch {
+        $("r-code-output").focus();
+        $("r-code-output").select();
+        setStatus($("analysis-status"), "Could not access clipboard. The R code is selected for copying.", "warn");
+      }
+    });
+
+    $("draw-plot").addEventListener("click", () => {
+      try {
+        const svg = drawPlotSvg();
+        state.currentPlotSvg = svg;
+        $("plot-output").innerHTML = svg;
+        $("plot-output").classList.remove("hidden");
+        $("download-plot-svg").disabled = false;
+        setStatus($("analysis-status"), "Plot drawn from the selected columns.", "ok");
+      } catch (error) {
+        setStatus($("analysis-status"), error.message, "error");
+      }
+    });
+
+    $("download-plot-svg").addEventListener("click", () => {
+      if (!state.currentPlotSvg) return;
+      const blob = new Blob([state.currentPlotSvg], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "analysis_plot.svg";
+      anchor.style.display = "none";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+    });
+
+    window.pipelineDebug = {
+      parseDelimited,
+      toCsv,
+      numericValue,
+      isNumericColumn,
+      selectedExportHeaders,
+      configureExportColumns,
+      resetExportColumns,
+      binRows,
+      buildZeroReport,
+      configureBinning,
+      configureLabelData,
+      configureLabelLookup,
+      mergeLabelRows,
+      deriveVoicingFromFullLabel,
+      deriveContextFromFullLabel,
+      configureAnalysis,
+      prettyColumnName,
+      plotXTitleFor,
+      plotYTitleFor,
+      syncPlotTitles,
+      generateRCode,
+      drawPlotSvg,
+      cleanRows,
+      state
+    };
+  </script>
+</body>
+</html>

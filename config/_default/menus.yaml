@@ -25,6 +25,9 @@ main:
   - name: Translations
     url: '#translations'
     weight: 70
+  - name: Tools
+    url: '/tools/acoustic-pipeline/'
+    weight: 75
   - name: Contact
     url: '#contact'
     weight: 80 
